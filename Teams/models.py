@@ -3,10 +3,17 @@ from django.contrib.auth import get_user_model
 
 
 user = get_user_model
+
+class TeamStatus(models.TextChoices):
+    active = 'active', 'Team can select'
+    unactive = 'unactive', "Can't select"
+
+
 class Team(models.Model):
     members = models.ForeignKey(user, on_delete=models.CASCADE)
     Team_name = models.CharField()
-    Team_manager = models.CharField()
+    Team_manager = models.OneToOneField(user)
+    status = models.CharField(max_length= 16, choice = TeamStatus.choices)
 
 
 class company(models.Model):
