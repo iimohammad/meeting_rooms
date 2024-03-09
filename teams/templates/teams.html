@@ -1,15 +1,29 @@
 <html>
     <head>
-        <h1>Teams' List</h1>
-        <title>{{teams.0.company.name}} Company's Teams</title>
+        {% if teams.0 %}
+            <h1>{{teams.0.company.name}} Company's Teams</h1>
+        {% else %}
+            <h3>There are no teams registered yet!</h3>
+        {% endif %}
+        <title>Teams' List</title>
     </head>
     <br>
     <body>
+        {% load my_custom_tags %}
+
         {% for team in teams %}
             {% if team.manager %}
-                <p>{{team.name}}: Managed by {{team.manager.first_name}} {{team.manager.last_name}}</p>
+                <p><strong>{{team.name}} Team</strong>:
+                    <a href="{% get_url team 1 %}">Members</a><a> - </a>
+                    <a href="{% get_url team 2 %}">Delete</a><a> - </a>
+                    <a href="{% get_url team 3 %}">Reservations</a></p>
+                <p>Managed by {{team.manager.user.first_name}} {{team.manager.user.last_name}}</p>
             {% else %}
-                <p>{{team.name}}: <p style="color: red;">Team's manager is not chosen yet!</p></p>
+                <p><strong>{{team.name}} Team</strong>:
+                    <a href="{% get_url team 1 %}">Members</a><a> - </a>
+                    <a href="{% get_url team 2 %}">Delete</a><a> - </a>
+                    <a href="{% get_url team 3 %}">Reservations</a></p>
+                <p><span style="color: red;">Team's manager is not chosen yet!</span></p>
             {% endif %}
         {% endfor %}
     </body>

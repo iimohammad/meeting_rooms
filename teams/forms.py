@@ -8,12 +8,12 @@ class CreateTeamForm(forms.ModelForm):
         model = Team
         fields = "__all__"
 
-    def clean_manager(self):
-        manager = self.cleaned_data['manager']
-        is_valid = manager.member_of is None
+    def clean_name(self):
+        name = self.cleaned_data['name']
+        is_valid = name.istitle()
 
         if not is_valid:
-            message = "The user you have chosen as your team manager is already in another team!\
-                       Please choose a user who doesn't have a team."
+            message = "You have not entered a valid name! Please try again."
             raise forms.ValidationError(message)
-        return manager
+        
+        return name

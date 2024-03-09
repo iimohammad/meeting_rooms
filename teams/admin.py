@@ -14,7 +14,7 @@ class UserAdmin(DefaultUserAdmin):
                 'email',
                 'phone_number',
                 'team',
-                'picture',
+                'image',
             )
         }),
         ('Permissions', {
@@ -51,11 +51,10 @@ class UserAdmin(DefaultUserAdmin):
 
 @admin.register(Team)
 class TeamAdmin(admin.ModelAdmin):
-    list_display = ['name', 'manager', 'company']
+    list_display = ['name', 'company']
     sortable_by = ['name', 'company']
     list_filter = ['name']
-    list_editable = ['name']
-    search_fields = ['name', 'manager', 'company']
+    search_fields = ['name', 'company']
 
 
 @admin.register(Company)
@@ -65,9 +64,15 @@ class CompanyAdmin(admin.ModelAdmin):
 
 @admin.register(MeetingRoom)
 class MeetingRoomAdmin(admin.ModelAdmin):
-    list_display = ['company', 'capacity', 'available']
+    list_display = ['name', 'company', 'capacity', 'available']
 
 
 @admin.register(Reservation)
 class ReservationAdmin(admin.ModelAdmin):
-    list_display = ['team', 'meeting_room', 'start_time', 'duration']
+    list_display = ['team', 'meeting_room', 'start_datetime', 'duration', 'status']
+    list_editable = ['status']
+
+
+@admin.register(Manager)
+class ManagerAdmin(admin.ModelAdmin):
+    list_display = ['user', 'team']
