@@ -146,5 +146,6 @@ EMAIL_PORT = local_settings.Email_Configuration['EMAIL_PORT']
 EMAIL_HOST_USER = local_settings.Email_Configuration['EMAIL_HOST_USER']
 EMAIL_HOST_PASSWORD = local_settings.Email_Configuration['EMAIL_HOST_PASSWORD']
 EMAIL_USE_TLS = local_settings.Email_Configuration['EMAIL_USE_TLS']
+
 AUTH_USER_MODEL = 'authentication.CustomUser'
 
