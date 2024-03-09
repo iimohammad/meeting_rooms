@@ -21,5 +21,5 @@ class MeetingRoom(models.Model):
 class Reservation(models.Model):
     room = models.ForeignKey(MeetingRoom, on_delete=models.CASCADE)
     user = models.ForeignKey(user, on_delete=models.CASCADE)
-    start_time = models.DateTimeField()
+    start_time = models.DateTimeField( )
     end_time = models.DateTimeField()
