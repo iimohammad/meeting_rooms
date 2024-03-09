@@ -11,8 +11,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-from . import Sample_local_settings
-from . import local_settings
+# from . import Sample_local_settings
+# from . import local_settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,13 +22,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = local_settings.Secret_key['secret_key']
+SECRET_KEY = 'django-insecure-c^e+9+l%x4zx)s-s&kbi^lq7vdk0i9qwf^b8b3!=_bfk=lnl0b'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
 
 # Application definition
 
@@ -39,7 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rooms',
+    'debug_toolbar',
+    # 'rooms',
+    'authentication',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -57,7 +63,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates',],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -128,9 +134,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #Email Configurations
 
-EMAIL_BACKEND = local_settings.Email_Configuration['EMAIL_BACKEND']
-EMAIL_HOST = local_settings.Email_Configuration['EMAIL_HOST']
-EMAIL_PORT = local_settings.Email_Configuration['EMAIL_PORT']
-EMAIL_HOST_USER = local_settings.Email_Configuration['EMAIL_HOST_USER']
-EMAIL_HOST_PASSWORD = local_settings.Email_Configuration['EMAIL_HOST_PASSWORD']
-EMAIL_USE_TLS = local_settings.Email_Configuration['EMAIL_USE_TLS']
+# EMAIL_BACKEND = local_settings.Email_Configuration['EMAIL_BACKEND']
+# EMAIL_HOST = local_settings.Email_Configuration['EMAIL_HOST']
+# EMAIL_PORT = local_settings.Email_Configuration['EMAIL_PORT']
+# EMAIL_HOST_USER = local_settings.Email_Configuration['EMAIL_HOST_USER']
+# EMAIL_HOST_PASSWORD = local_settings.Email_Configuration['EMAIL_HOST_PASSWORD']
+# EMAIL_USE_TLS = local_settings.Email_Configuration['EMAIL_USE_TLS']
+AUTH_USER_MODEL = 'authentication.CustomUser'
