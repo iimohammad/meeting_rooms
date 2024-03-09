@@ -1,12 +1,36 @@
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
-from .models import MeetingRoom, Reservation, UserProfile, Company , Review
-from django.contrib.auth.decorators import login_required
-from django.urls import reverse
 
-def index(request):
-    rooms = MeetingRoom.objects.all()
-    return render(request, 'index.html', {'rooms': rooms})
+import csv
+import json
+from time import sleep
+
+from django.http import JsonResponse, FileResponse, StreamingHttpResponse, HttpResponse
+from django.shortcuts import render ,get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
+from .models import MeetingRoom, Reservation, Review, Company, UserProfile
+from django.contrib.auth.decorators import login_required
+
+def meeting_room_list(request):
+     return render(list(MeetingRoom.objects.all().values()), safe=False)
+
+def meeting_room_detail(request, room_id):
+    return render(request, 'meeting_room_detail.html', {'room': get_object_or_404(MeetingRoom, id=room_id)})
+
+def reserve_room(request, room_id):
+    Reservation.objects.create(room=get_object_or_404(MeetingRoom, id=room_id), user=request.user)
+    return render('meeting_room_detail', room_id=room_id)
+
+def add_review(request, room_id):
+    Review.objects.create(room=get_object_or_404(MeetingRoom, id=room_id), user=request.user)
+    return render('meeting_room_detail', room_id=room_id)
+
+def stream_response():
+    for i in range(100):
+        yield f"{i}\\n"
+streaming_response = StreamingHttpResponse(stream_response())
+print(f"Type of StreamingHttpResponse: {type(streaming_response)}")
+http_response = HttpResponse("This is a simple HTTP response")
+print(f"Type of HttpResponse: {type(http_response)}")
 
 @login_required
 def reserve_room(request, room_id):
@@ -29,31 +53,26 @@ def cancel_reservation(request, reservation_id):
             return HttpResponse('You do not have permission to cancel this reservation')
     else:
         return HttpResponse('Invalid request')
+    
+def company_list(request):
+    return render(request, 'company_list.html', {'companies': Company.objects.all()})
 
-@login_required
-def room_status(request, room_id):
-    room = get_object_or_404(MeetingRoom, id=room_id)
-    reservations = Reservation.objects.filter(room=room)
-    return render(request, 'room_status.html', {'room': room, 'reservations': reservations})
+def user_profile(request, user_id):
+    return render(request, 'user_profile.html', {'user_profile': get_object_or_404(UserProfile, user_id=user_id)})
 
-@login_required
-def add_review(request, room_id):
-    if request.method == 'POST':
-        room = get_object_or_404(MeetingRoom, id=room_id)
-        reservation = Reservation.objects.get(user=request.user, room=room)
-        reservation.score = request.POST['score']
-        reservation.review = request.POST['review']
-        reservation.save()
-        return HttpResponseRedirect(reverse('room_status', args=(room.id,)))
-    else:
-        return HttpResponse('Invalid request')
+def review_list(request):
+    return render(request, 'review_list.html', {'reviews': Review.objects.filter(user=request.user)})
 
-@login_required
-def add_review(request, room_id):
-    if request.method == 'POST':
-        room = get_object_or_404(MeetingRoom, id=room_id)
-        review = Review(user=request.user, room=room, rating=request.POST['rating'], comment=request.POST['comment'])
-        review.save()
-        return HttpResponseRedirect(reverse('room_status', args=(room.id,)))
-    else:
-        return HttpResponse('Invalid request')
+@csrf_exempt
+@require_http_methods(['POST'])
+def reserve_room(request, room_id):
+    Reservation.objects.create(room=get_object_or_404(MeetingRoom, id=room_id), user=request.user)
+    return JsonResponse('meeting_room_detail', room_id=room_id)
+
+@csrf_exempt
+@require_http_methods(['POST'])
+def cancel_reservation(request, reservation_id):
+    reservation = get_object_or_404(Reservation, id=reservation_id)
+    reservation.is_canceled = True
+    reservation.save()
+    return JsonResponse('meeting_room_detail', room_id=reservation.room.id)
