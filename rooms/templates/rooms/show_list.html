@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Room Calendar</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .reserved {
+            background-color: #ffcccc; /* Light red */
+        }
+    </style>
+</head>
+<body>
+    <h2>Meeting Room Calendar</h2>
+    <div id="calendar"></div>
+
+    <script>
+        // Sample data: reservations for each meeting room on each day of the week
+        const reservations = {
+            "Monday": {
+                "Meeting Room 1": [8, 9, 10],
+                "Meeting Room 2": [9, 10, 11],
+                // Add more meeting rooms and reservations as needed
+            },
+            "Tuesday": {
+                "Meeting Room 1": [8, 9],
+                "Meeting Room 2": [9, 10, 11, 12],
+                // Add more meeting rooms and reservations as needed
+            },
+            // Add reservations for other days of the week
+        };
+
+        // Function to create a table for a given day of the week
+        function createTable(day) {
+            const table = document.createElement('table');
+            const headerRow = table.insertRow();
+            headerRow.insertCell().textContent = 'Meeting Room';
+
+            // Add header cells for each hour
+            for (let i = 8; i < 18; i++) {
+                headerRow.insertCell().textContent = i + ":00";
+            }
+
+            // Add rows for each meeting room
+            for (const room in reservations[day]) {
+                const row = table.insertRow();
+                const cell = row.insertCell();
+                cell.textContent = room;
+
+                // Add cells to indicate reserved hours
+                for (let i = 8; i < 18; i++) {
+                    const cell = row.insertCell();
+                    if (reservations[day][room].includes(i)) {
+                        cell.classList.add('reserved');
+                    }
+                }
+            }
+
+            return table;
+        }
+
+        // Render tables for each day of the week
+        const calendarDiv = document.getElementById('calendar');
+        const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+        for (const day of daysOfWeek) {
+            const header = document.createElement('h3');
+            header.textContent = day;
+            calendarDiv.appendChild(header);
+            calendarDiv.appendChild(createTable(day));
+        }
+    </script>
+</body>
+</html>
