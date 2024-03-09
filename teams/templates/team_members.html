@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <h1>Team's Members' List</h1>
+        {% if members.0 %}
+            <title>{{members.0.team.name}} Team's Members</title>
+        {% else %}
+            <h3>This team has no members!</h3>
+        {% endif %}
+    </head>
+    <br>
+    <body>
+        {% for member in members %}
+            {% if member.team %}
+                <p style="color: green;">The Team Manager:</p>
+                <p>{{member.username}}: {{member.first_name}} {{member.last_name}}</p>
+            {% else %}
+                <p>{{member.username}}: {{member.first_name}} {{member.last_name}}</p>
+            {% endif %}
+        {% endfor %}
+    </body>
+</html>

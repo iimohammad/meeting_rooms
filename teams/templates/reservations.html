@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <h1>Team's Reservations</h1>
+        <title>{{reservations.0.team.name}} Team's Reservations</title>
+    </head>
+    <br>
+    <body>
+        {% for reservation in reservations %}
+            {% if reservation.status is 'p' %}
+                <h4>The pending reservation {{reservation.id}}:</h4>
+                <p>- will take place in the {{reservation.meeting_room.name}} room.</p>
+                <p>- will start at {{reservation.start_datetime}}</p>
+                <p>- will last for {{reservation.duration.hour}} hours, {{reservation.duration.minute}} minutes and {{reservation.duration.second}} seconds.</p>
+            {% elif reservation.status is 'i' %}
+                <h4>The reservation {{reservation.id}} in-progress:</h4>
+                <p>- is taking place in the {{reservation.meeting_room.name}} room.</p>
+                <p>- has started at {{reservation.start_datetime}}</p>
+                <p>- is going to last for {{reservation.duration.hour}} hours, {{reservation.duration.minute}} minutes and {{reservation.duration.second}} seconds.</p>
+            {% elif reservation.status is 'd' %}
+                <h4>The past reservation {{reservation.id}}:</h4>
+                <p>- has taken place in the {{reservation.meeting_room.name}} room.</p>
+                <p>- has started at {{reservation.start_datetime}}</p>
+                <p>- has lasted for {{reservation.duration.hour}} hours, {{reservation.duration.minute}} minutes and {{reservation.duration.second}} seconds.</p>
+            {% endif %}
+        {% endfor %}
+    </body>
+</html>

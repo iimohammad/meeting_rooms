@@ -1,0 +1,16 @@
+<html>
+    <head>
+        <h1>Teams' List</h1>
+        <title>{{teams.0.company.name}} Company's Teams</title>
+    </head>
+    <br>
+    <body>
+        {% for team in teams %}
+            {% if team.manager %}
+                <p>{{team.name}}: Managed by {{team.manager.first_name}} {{team.manager.last_name}}</p>
+            {% else %}
+                <p>{{team.name}}: <p style="color: red;">Team's manager is not chosen yet!</p></p>
+            {% endif %}
+        {% endfor %}
+    </body>
+</html>
