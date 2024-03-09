@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from customuser.models import CustomUser
+from authentication.models import CustomUser
 
 class UserCreateForm(UserCreationForm):
     phone = forms.CharField(max_length=11)
