@@ -10,7 +10,7 @@ class TeamStatus(models.TextChoices):
 
 
 class Team(models.Model):
-    members = models.ForeignKey(user, on_delete=models.CASCADE)
+    members = models.ManyToManyField(to=user, on_delete=models.CASCADE)
     Team_name = models.CharField()
     Team_manager = models.OneToOneField(user)
     status = models.CharField(max_length= 16, choice = TeamStatus.choices)

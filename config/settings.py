@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 from . import Sample_local_settings
-from . import local_settings
+from . import Sample_local_settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = local_settings.Secret_key['secret_key']
+SECRET_KEY = Sample_local_settings.Secret_key['secret_key']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -128,9 +128,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #Email Configurations
 
-EMAIL_BACKEND = local_settings.Email_Configuration['EMAIL_BACKEND']
-EMAIL_HOST = local_settings.Email_Configuration['EMAIL_HOST']
-EMAIL_PORT = local_settings.Email_Configuration['EMAIL_PORT']
-EMAIL_HOST_USER = local_settings.Email_Configuration['EMAIL_HOST_USER']
-EMAIL_HOST_PASSWORD = local_settings.Email_Configuration['EMAIL_HOST_PASSWORD']
-EMAIL_USE_TLS = local_settings.Email_Configuration['EMAIL_USE_TLS']
+EMAIL_BACKEND = Sample_local_settings.Email_Configuration['EMAIL_BACKEND']
+EMAIL_HOST = Sample_local_settings.Email_Configuration['EMAIL_HOST']
+EMAIL_PORT = Sample_local_settings.Email_Configuration['EMAIL_PORT']
+EMAIL_HOST_USER = Sample_local_settings.Email_Configuration['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = Sample_local_settings.Email_Configuration['EMAIL_HOST_PASSWORD']
+EMAIL_USE_TLS = Sample_local_settings.Email_Configuration['EMAIL_USE_TLS']
