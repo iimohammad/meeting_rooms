@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from .forms import *
 from django.contrib.auth.decorators import login_required
+from utils.decorators import *
+from django.views.generic import UpdateView
+from django.urls import reverse_lazy
 
 @login_required
 def show_teams(request):
@@ -49,10 +52,29 @@ def show_team_reservations(request, team_id):
 
         return render(request, 'reservations.html', {'reservations': reservations})
     
-@login_required
-def edit_members_of_team(request, team_id):
-    pass
 
 @login_required
-def change_manager_of_team(request, team_id):
-    pass
+class TeamManagerUpdateView(UpdateView):
+    model = Manager
+    form_class = ManagerForm
+    fields = ['user']  
+    template_name = 'update_manager.html'  
+    success_url = reverse_lazy('show_team_members')  
+
+    def get_object(self, queryset=None):
+        team_id = self.kwargs.get('team_id')
+        team_manager = get_object_or_404(Manager, user=self.request.user, team_id=team_id)
+        return team_manager
+
+@login_required   
+class TeamUpdateView(UpdateView):
+    model = Team
+    form_class = TeamForm
+    template_name = 'update_team.html'
+    success_url = reverse_lazy('show_team_members')
+
+    def get_object(self, queryset=None):
+        team_id = self.kwargs.get('team_id')
+        team = get_object_or_404(Team, id=team_id)
+        return team
+
