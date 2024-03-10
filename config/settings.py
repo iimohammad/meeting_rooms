@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 
 from . import Sample_local_settings
-from . import local_settings
+# from . import local_settings
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +25,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
+
+
 SECRET_KEY = Sample_local_settings.Secret_key['secret_key']
+
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -49,7 +52,9 @@ INSTALLED_APPS = [
     'Teams',
     'debug_toolbar',
     'rooms',
+    'teams',
     'authentication',
+
 ]
 
 MIDDLEWARE = [
@@ -136,6 +141,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+AUTH_USER_MODEL = 'teams.CustomUser'
 
 #Email Configurations
 
@@ -147,5 +153,7 @@ EMAIL_HOST_USER = local_settings.Email_Configuration['EMAIL_HOST_USER']
 EMAIL_HOST_PASSWORD = local_settings.Email_Configuration['EMAIL_HOST_PASSWORD']
 EMAIL_USE_TLS = local_settings.Email_Configuration['EMAIL_USE_TLS']
 
+
 AUTH_USER_MODEL = 'authentication.CustomUser'
+
 

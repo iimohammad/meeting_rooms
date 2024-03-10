@@ -1,3 +1,4 @@
+
 from django.contrib.auth import get_user_model
 from django.db import models
 
@@ -65,4 +66,5 @@ class Review(models.Model):
     room = models.ForeignKey(MeetingRoom, on_delete=models.CASCADE)
     rating = models.IntegerField()
     comment = models.TextField()
+
 
