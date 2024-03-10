@@ -14,7 +14,7 @@ import os
 from pathlib import Path
 
 from . import Sample_local_settings
-# from . import local_settings
+from . import local_settings
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -32,7 +32,6 @@ SECRET_KEY = Sample_local_settings.Secret_key['secret_key']
 
 
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -50,10 +49,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Teams',
+    'teams',
     'debug_toolbar',
     'rooms',
-    'teams',
     'authentication',
 
 ]

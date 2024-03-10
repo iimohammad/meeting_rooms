@@ -1,7 +1,7 @@
 
 from django.contrib.auth import get_user_model
 from django.db import models
-
+from teams.models import Team,Company
 User = get_user_model()
 
 
@@ -12,19 +12,14 @@ User = get_user_model()
 
 
 # class company(models.Model):
-#     Teams = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, blank=True)
+#     teams = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, blank=True)
 #     company_name = models.CharField()``
 
-class Team(models.Model):
-    members = models.ManyToManyField(User)  # Use User model directly
-    Team_name = models.CharField(max_length=100)
-    Team_manager = models.CharField(max_length=100)
 
 
 
-class Company(models.Model):
-    Teams = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, blank=True)
-    company_name = models.CharField(max_length=100)
+
+
 
 class UserProfile(models.Model):
 
