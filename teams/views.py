@@ -48,3 +48,11 @@ def show_team_reservations(request, team_id):
         reservations = team.reservation_set.all()
 
         return render(request, 'reservations.html', {'reservations': reservations})
+    
+@login_required
+def edit_members_of_team(request, team_id):
+    pass
+
+@login_required
+def change_manager_of_team(request, team_id):
+    pass
