@@ -1,0 +1,14 @@
+{% extends 'base.html' %} {% block title %}
+<title>Profile</title>
+{% endblock %} {% block body %}
+<section class="profile">
+  {%for key,value in profile.items%}
+  <p class="profile__text">{{key}} : {{value}}</p>
+  {%endfor%}
+  <img
+    class="profile__image"
+    src="http://localhost:8000/{{image}}"
+    alt="profile image"
+  />
+</section>
+{% endblock %}
