@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 # from . import Sample_local_settings
 # from . import local_settings
@@ -124,15 +125,19 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
-#Email Configurations
+MEDIA_ROOT = os.path.join(BASE_DIR, 'profile_images')
+MEDIA_URL = '/profile_images/'
+# Email Configurations
 
 # EMAIL_BACKEND = local_settings.Email_Configuration['EMAIL_BACKEND']
 # EMAIL_HOST = local_settings.Email_Configuration['EMAIL_HOST']
