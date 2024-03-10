@@ -17,3 +17,13 @@ class CreateTeamForm(forms.ModelForm):
             raise forms.ValidationError(message)
         
         return name
+
+class ManagerForm(forms.ModelForm):
+    class Meta:
+        model = Manager
+        fields = ['user', 'team']
+
+class TeamForm(forms.ModelForm):
+    class Meta:
+        model = Team
+        fields = ['name', 'members']
