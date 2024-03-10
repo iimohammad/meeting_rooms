@@ -1,5 +1,5 @@
 Secret_key = {
-    "secret_key" : ""
+    "secret_key" : "django-insecure-c^e+9+l%x4zx)s-s&kbi^lq7vdk0i9qwf^b8b3!=_bfk=lnl0b"
 }
 
 Email_Configuration = {
