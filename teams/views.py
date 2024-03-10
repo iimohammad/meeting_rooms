@@ -66,7 +66,8 @@ class TeamManagerUpdateView(UpdateView):
         team_manager = get_object_or_404(Manager, user=self.request.user, team_id=team_id)
         return team_manager
 
-@login_required   
+@login_required
+@manager_required
 class TeamUpdateView(UpdateView):
     model = Team
     form_class = TeamForm
