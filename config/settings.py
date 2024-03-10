@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 from . import Sample_local_settings
@@ -134,17 +135,20 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'teams.CustomUser'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
-#Email Configurations
+MEDIA_ROOT = os.path.join(BASE_DIR, 'profile_images')
+MEDIA_URL = '/profile_images/'
 
+# Email Configurations
 
 EMAIL_BACKEND = local_settings.Email_Configuration['EMAIL_BACKEND']
 EMAIL_HOST = local_settings.Email_Configuration['EMAIL_HOST']
@@ -153,7 +157,5 @@ EMAIL_HOST_USER = local_settings.Email_Configuration['EMAIL_HOST_USER']
 EMAIL_HOST_PASSWORD = local_settings.Email_Configuration['EMAIL_HOST_PASSWORD']
 EMAIL_USE_TLS = local_settings.Email_Configuration['EMAIL_USE_TLS']
 
-
 AUTH_USER_MODEL = 'authentication.CustomUser'
-
 

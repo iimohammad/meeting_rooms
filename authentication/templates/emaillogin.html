@@ -1,0 +1,28 @@
+{% extends 'base.html' %} {% block title %}
+<title>login</title>
+{% endblock %} {% block body %}
+
+<div>
+  <form method="post">
+    <div>
+      <label for="email">Email:</label>
+      <input
+        type="email"
+        name="email"
+        autofocus="true"
+        autocapitalize="none"
+        autocomplete=""
+        maxlength="150"
+      />
+    </div>
+    {% if otp == 1 %}
+    <div>
+      <label for="otp">OTP:</label>
+
+      <input type="text" name="otp" autocomplete="" required="" id="id_otp" />
+    </div>
+    {% endif %}
+    <button type="submit">login</button>
+  </form>
+</div>
+{% endblock %}

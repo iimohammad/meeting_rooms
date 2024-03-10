@@ -1,15 +1,11 @@
-{% extends 'base.html' %}
-
-{% block title %}
-    <title>Signup</title>
-{% endblock %}
-
-{% block body %}
-    <div>
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_div }}
-            <button type="submit">signup</button>
-        </form>
-    </div>
-{% endblock %}
+{% extends 'base.html' %} {% block title %}
+<title>Signup</title>
+{% endblock %} {% block body %}
+  <div class="form-container">
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %} {{ form.as_div }}
+      <button class="btn btn--primary" type="submit">signup</button>
+    </form>
+  </div>
+  {% endblock %}
+</h1>
