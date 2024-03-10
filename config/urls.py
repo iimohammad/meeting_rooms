@@ -24,5 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('authentication.urls')),
     path("__debug__/", include("debug_toolbar.urls")),
+    path('teams/', include('teams.urls')),
+
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

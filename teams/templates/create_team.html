@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <h1>Create Team</h1>
+        <title>Team Creation</title>
+    </head>
+    <br>
+    <body>
+        <form method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <input type="submit"/>
+        </form>
+        {% if form.errors %}
+            {{form.errors}}
+        {% endif %}
+    </body>
+</html>
