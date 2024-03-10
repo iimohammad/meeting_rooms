@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.contrib import messages
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import redirect , get_object_or_404
 from .models import Post, Author
 from .foarm import CreatePostForm  # اضافه کردن فرم مربوطه
 
@@ -14,15 +14,15 @@ def post_update(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     if request.method == 'GET':
         form = CreatePostForm(instance=post)
-        return render(request, 'post/create_post.html', {'form': form})
+        return redirect(request, 'post/create_post.html', {'form': form})
     if request.method == 'POST':
         form = CreatePostForm(request.POST, instance=post)
         if form.is_valid():
             form.save()
             messages.success(request, 'Post updated successfully', 'success')
-            return render('home:home')
+            return redirect('home:home')
         messages.error(request, 'There was an error in form validation.')
-        return render(request, 'post/create_post.html', {'form': form})
+        return redirect(request, 'post/create_post.html', {'form': form})
 
 class PostViewTests(TestCase):
     def setUp(self):
