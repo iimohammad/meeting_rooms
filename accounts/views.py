@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.views.generic import CreateView, UpdateView, View
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from authentication.forms import UserCreateForm
+from accounts.forms import UserCreateForm
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 user = get_user_model()

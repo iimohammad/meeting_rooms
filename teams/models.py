@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
-from authentication.models import CustomUser
+from accounts.models import CustomUser
 
 
 class Company(models.Model):
