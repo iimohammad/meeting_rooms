@@ -9,4 +9,5 @@ urlpatterns = [
     path('delete_team/<int:team_id>/', delete_team, name='delete_team'),
     path('create_team/', create_team, name='create_team'),
     path('show_team_reservations/<int:team_id>/', show_team_reservations, name='show_team_reservations'),
+    path('edit_members_of_team', )
 ]
