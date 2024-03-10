@@ -1,10 +1,8 @@
-from django.db import models
 from django.contrib.auth import get_user_model
+from django.db import models
 
+User = get_user_model()
 
-
-
-user = get_user_model
 
 # class Team(models.Model):
 #     members = models.ForeignKey(user, on_delete=models.CASCADE)
@@ -16,18 +14,31 @@ user = get_user_model
 #     Teams = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, blank=True)
 #     company_name = models.CharField()``
 
+class Team(models.Model):
+    members = models.ManyToManyField(User)  # Use User model directly
+    Team_name = models.CharField(max_length=100)
+    Team_manager = models.CharField(max_length=100)
+
+
 
 class Company(models.Model):
-    name = models.CharField(max_length=200)
-    address = models.CharField(max_length=200)
-    contact_info = models.CharField(max_length=200)
+    Teams = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, blank=True)
+    company_name = models.CharField(max_length=100)
 
 class UserProfile(models.Model):
+
     user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
     email = models.EmailField(max_length=254)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
+    
+
+class Group(models.Model):
+    name = models.CharField(max_length=200)
+    users = models.ManyToManyField(User)  # Use User model directly
+
 class MeetingRoom(models.Model):
+    members = models.ManyToManyField(User)  # Use User model directly
     room = models.CharField(max_length=200)
     location = models.CharField(max_length=200)
     capacity = models.IntegerField()
@@ -47,9 +58,11 @@ class Reservation(models.Model):
     score = models.IntegerField(null=True, blank=True)
     review = models.TextField(blank=True, null=True)
     otp = models.CharField(max_length=6)
+
     
 class Review(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     room = models.ForeignKey(MeetingRoom, on_delete=models.CASCADE)
     rating = models.IntegerField()
     comment = models.TextField()
+
