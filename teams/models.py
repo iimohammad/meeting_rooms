@@ -31,6 +31,7 @@ class Team(models.Model):
 class Manager(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    acsess = models.BooleanField(default=True)
 
 
 class MeetingRoom(models.Model):
