@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404
 from .models import Post, Author
-from .forms import CreatePostForm  # اضافه کردن فرم مربوطه
+from .foarm import CreatePostForm  # اضافه کردن فرم مربوطه
 
 def post_update(request, post_id):
     # View function for updating a post.
@@ -20,7 +20,7 @@ def post_update(request, post_id):
         if form.is_valid():
             form.save()
             messages.success(request, 'Post updated successfully', 'success')
-            return redirect('home:home')
+            return render('home:home')
         messages.error(request, 'There was an error in form validation.')
         return render(request, 'post/create_post.html', {'form': form})
 
