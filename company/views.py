@@ -33,9 +33,11 @@ class TeamDeleteView(DeleteView):
 @method_decorator(login_required, name='dispatch')
 class TeamUpdateView(UpdateView):
     model = Team
-    fields = ['company', 'name', 'manager']
+    fields = ['company', 'name', 'manager', 'members']
     template_name = 'team_update.html'
-    success_url = reverse_lazy('team-list')
+
+    def get_success_url(self):
+        return reverse_lazy('team-detail', kwargs={'pk': self.object.pk})
 
 
 @method_decorator(login_required, name='dispatch')
@@ -51,17 +53,6 @@ class TeamListView(ListView):
 class TeamDetailView(DetailView):
     model = Team
     template_name = 'team_detail.html'
-
-
-class TeamMembersListView(LoginRequiredMixin, ListView):
-    model = Team
-    template_name = 'team_members.html'
-    context_object_name = 'members'
-
-    def get_queryset(self):
-        team_id = self.kwargs.get('team_id')
-        team = get_object_or_404(Team, id=team_id)
-        return team.customuser_set.all()
 
 
 # Company Views
