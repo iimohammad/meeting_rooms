@@ -1,32 +1,27 @@
-import csv
-import json
-from django.shortcuts import render, redirect, get_object_or_404
+from django.http import JsonResponse
+from django.shortcuts import  redirect, get_object_or_404
 from django.contrib import messages
 from django.views.generic import CreateView
-from .models import MeetingRoom, Sessions
-from time import sleep
+from rooms.forms import MeetingRoomRatingForm
+from .models import MeetingRoom, MeetingRoomRating, Sessions
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .models import MeetingRoom, Sessions
-from django.shortcuts import render
-from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_http_methods
-from .models import MeetingRoom, Reservation, Review, Company, UserProfile
+from .models import MeetingRoom
 from django.contrib.auth.decorators import login_required
-from django.views.generic import DetailView
+from django.views.generic import DetailView , ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-@login_required
-class MeetingRoomListView(ListView):
+class MeetingRoomListView(ListView , LoginRequiredMixin):
     model = MeetingRoom
     template_name = 'meeting_room_list.html'
     context_object_name = 'meeting_rooms'
 
 
-@login_required
-class ReserveMeetingRoomView(CreateView):
+class ReserveMeetingRoomView(CreateView , LoginRequiredMixin):
     model = Sessions
     fields = ['date', 'start_time', 'end_time']
     template_name = 'reserve_meeting_room.html'
@@ -62,24 +57,32 @@ class ReserveMeetingRoomView(CreateView):
         return context
 
 
-@login_required
-class MeetingRoomRatingView(View):
-    def get(self, request, session_id):
-        session = get_object_or_404(Sessions, pk=session_id)
-        form = MeetingRoomRatingForm()
-        return render(request, 'meeting_room_rating_form.html', {'form': form, 'session': session})
+# @login_required
+# class MeetingRoomRatingView(View):
+#     def get(self, request, session_id):
+#         session = get_object_or_404(Sessions, pk=session_id)
+#         form = MeetingRoomRatingForm()
+#         return render(request, 'meeting_room_rating_form.html', {'form': form, 'session': session})
 
-    def post(self, request, session_id):
-        session = get_object_or_404(Sessions, pk=session_id)
-        form = MeetingRoomRatingForm(request.POST)
-        if form.is_valid():
-            rating = form.save(commit=False)
-            rating.user = request.user
-            rating.meeting_room = session.meeting_room
-            rating.session = session
-            rating.save()
-            return redirect('success_url')
-        return render(request, 'meeting_room_rating_form.html', {'form': form, 'session': session})
+#     def post(self, request, session_id):
+#         session = get_object_or_404(Sessions, pk=session_id)
+#         form = MeetingRoomRatingForm(request.POST)
+#         if form.is_valid():
+#             rating = form.save(commit=False)
+#             rating.user = request.user
+#             rating.meeting_room = session.meeting_room
+#             rating.session = session
+#             rating.save()
+#             return redirect('success_url')
+#         return render(request, 'meeting_room_rating_form.html', {'form': form, 'session': session})
+
+class MeetingRoomRatingView(CreateView , LoginRequiredMixin):
+    form_class = MeetingRoomRatingForm
+    template_name = 'meeting_room_rating_form.html'
+    success_url = reverse_lazy('meeting_room_list')
+
+
+
 
 
 def stream_response():
@@ -93,7 +96,7 @@ def cancel_reservation(request, session_id):
     session = get_object_or_404(Sessions, pk=session_id)
 
     # Check if the current user is authorized to cancel the reservation
-    if self.request.user.is_manager:
+    if request.user.is_manager:
         # Attempt to cancel the reservation
         session.delete()
         return JsonResponse({'message': 'Reservation cancelled successfully.'})
@@ -101,8 +104,8 @@ def cancel_reservation(request, session_id):
         return JsonResponse({'error': 'Unauthorized to cancel reservation.'}, status=403)
 
 
-@login_required
-class MeetingRoomSessionsListView(ListView):
+
+class MeetingRoomSessionsListView(ListView , LoginRequiredMixin):
     model = Sessions
     template_name = 'meeting_room_sessions_list.html'
     context_object_name = 'sessions'
@@ -129,8 +132,8 @@ class MeetingRoomSessionsListView(ListView):
         return context
 
 
-@login_required
-class SessionDetailView(DetailView):
+
+class SessionDetailView(DetailView ,LoginRequiredMixin):
     model = Sessions
     template_name = 'session_detail.html'
     context_object_name = 'session'
@@ -146,8 +149,8 @@ class SessionDetailView(DetailView):
         return context
 
 
-@login_required
-class MeetingRoomRatingsView(DetailView):
+
+class MeetingRoomRatingsView(DetailView , LoginRequiredMixin):
     model = MeetingRoom
     template_name = 'meeting_room_ratings.html'
     context_object_name = 'meeting_room'

@@ -12,7 +12,8 @@ class MeetingRoom(models.Model):
     location = models.CharField(max_length=50)
     available = models.BooleanField(default=True)
     company = models.ForeignKey('company.Company', on_delete=models.CASCADE)
-
+    def __str__(self) -> str:
+        return self.room_name
     def is_available(self, date, start_time, end_time):
         if not self.available:
             return False
