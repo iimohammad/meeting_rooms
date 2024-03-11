@@ -1,0 +1,11 @@
+{% extends 'base.html' %} {% block body %}
+<div>
+  <h2>Rating</h2>
+  <form method="post">
+    {% csrf_token %} {% if form.non_field_errors %}
+    <div class="error-message">{{ form.non_field_errors }}</div>
+    {% endif %} {{form}}
+    <button type="submit">Login</button>
+  </form>
+</div>
+{% endblock %}
