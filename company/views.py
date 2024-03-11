@@ -24,7 +24,10 @@ class TeamCreateView(CreateView):
 class TeamDeleteView(DeleteView):
     model = Team
     template_name = 'team_confirm_delete.html'
-    success_url = reverse_lazy('home:home')
+
+    def get_success_url(self):
+        company_id = self.object.company.id
+        return reverse_lazy('team-list', kwargs={'company_id': company_id})
 
 
 @method_decorator(login_required, name='dispatch')
@@ -32,7 +35,7 @@ class TeamUpdateView(UpdateView):
     model = Team
     fields = ['company', 'name', 'manager']
     template_name = 'team_update.html'
-    success_url = reverse_lazy('team-list')  # Redirect to team list after successful update
+    success_url = reverse_lazy('team-list')
 
 
 @method_decorator(login_required, name='dispatch')
