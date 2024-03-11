@@ -14,6 +14,8 @@ from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.urls import reverse
 from .models import CustomUser
+from .forms import EditProfileForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 user = get_user_model
 
@@ -71,18 +73,13 @@ def profile_view(request):
     return render(request, 'profile.html', context=context)
 
 
-@login_required
-def edit_profile_view(request):
-    profile = request.user
-    profile = {
-        'username': profile.get_username(),
-        'first_name': profile.first_name,
-        'last_name': profile.last_name,
-        'email': profile.email,
-        'phone': profile.phone,
-        'profile_image': profile.profile_image,
-    }
-    context = {'profile': profile}
-    return render(request, 'editprofile.html', context)
+class EditProfileView(LoginRequiredMixin, UpdateView):
+    model = CustomUser
+    form_class = EditProfileForm
+    template_name = 'editprofile.html'
+    success_url = reverse_lazy('profile_view')
+
+    def get_object(self, queryset=None):
+        return self.request.user
 
 
