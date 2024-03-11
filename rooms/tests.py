@@ -11,12 +11,12 @@ def post_update(request, post_id):
     # If the request method is GET, display the post update form.
     # If the request method is POST, validate the form and update the post if the form is valid.
 
-    post = get_object_or_404(post, id=post_id)
+    team = get_object_or_404(Team, id=post_id)  # تغییر اینجا به Team
     if request.method == 'GET':
-        form = CreatePostForm(instance=post)
+        form = CreatePostForm(instance=team)
         return redirect(request, 'post/create_post.html', {'form': form})
     if request.method == 'POST':
-        form = CreatePostForm(request.POST, instance=post)
+        form = CreatePostForm(request.POST, instance=team)
         if form.is_valid():
             form.save()
             messages.success(request, 'Post updated successfully', 'success')
@@ -27,7 +27,7 @@ def post_update(request, post_id):
 class PostViewTests(TestCase):
     def setUp(self):
         # Create a test user
-        self.UserProfile = UserProfile.objects.create(
+        self.user = get_user_model().objects.create(
             username='testuser',
             password='testpassword',
             email='test@example.com'
@@ -63,7 +63,7 @@ class PostViewTests(TestCase):
         )
 
     def test_post_update_view_POST_valid_form(self):
-        post = post.objects.create(body='Original post body', author=self.user)
+        post = Team.objects.create(body='Original post body', author=self.user)
 
         data = {'body': 'Updated post body'}
         self.client.force_login(self.user)
@@ -79,7 +79,7 @@ class PostViewTests(TestCase):
         self.assertTrue(self.meeting_room.available)
 
     def test_post_update_view_GET(self):
-        post =post.objects.create(body='Original post body', author=self.user)
+        post =Team.objects.create(body='Original post body', author=self.user)
 
         self.client.force_login(self.user)
 
@@ -99,7 +99,7 @@ class PostViewTests(TestCase):
         
 
     def test_post_update_view_POST_invalid_form(self):
-        post = post.objects.create(body='Original post body', author=self.user)
+        post = Team.objects.create(body='Original post body', author=self.user)
 
         invalid_data = {'body': ''}
         self.client.force_login(self.user)
