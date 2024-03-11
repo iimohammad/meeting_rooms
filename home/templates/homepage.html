@@ -1,0 +1,60 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Room Reservation</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Meeting Room Reservation</h1>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'home:home' %}">Home</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'logout_view' %}">Logout</a></li>
+                        <li><a href="#">Welcome, {{ user.username }}</a></li>
+                    {% else %}
+                        <li><a href="{% url 'signup_view' %}">Signup</a></li>
+                        <li><a href="{% url 'login_view' %}">Login</a></li>
+                    {% endif %}
+
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="hero">
+        <div class="container">
+            <h2>Welcome to our Meeting Room Reservation System</h2>
+            <p>Effortlessly reserve meeting rooms for your team.</p>
+            <a href="{% url 'reserve_room' %}" class="btn">Reserve a Room</a>
+        </div>
+    </section>
+
+    <section id="features">
+        <div class="container">
+            <h2>Features</h2>
+            <div class="feature">
+                <h3>Easy Reservation</h3>
+                <p>Quickly reserve meeting rooms for your team with just a few clicks.</p>
+            </div>
+            <div class="feature">
+                <h3>Manager Authorization</h3>
+                <p>Only managers of a team associated with a company can reserve rooms for that company.</p>
+            </div>
+            <!-- Add more features here -->
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Meeting Room Reservation</p>
+        </div>
+    </footer>
+</body>
+</html>

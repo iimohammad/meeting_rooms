@@ -3,7 +3,6 @@ from .models import *
 
 
 class CreateTeamForm(forms.ModelForm):
-
     class Meta:
         model = Team
         fields = "__all__"
@@ -15,15 +14,17 @@ class CreateTeamForm(forms.ModelForm):
         if not is_valid:
             message = "You have not entered a valid name! Please try again."
             raise forms.ValidationError(message)
-        
+
         return name
+
 
 class ManagerForm(forms.ModelForm):
     class Meta:
         model = Manager
         fields = ['user', 'team']
 
+
 class TeamForm(forms.ModelForm):
     class Meta:
         model = Team
-        fields = ['name', 'members']
+        fields = ['name']

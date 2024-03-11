@@ -10,5 +10,6 @@ urlpatterns = [
     path('signup/', SignupView.as_view(), name='signup_view'),
     path('profile/', profile_view, name='profile_view'),
     path('editprofile/', edit_profile_view),
+    path('signup/', SignupView.as_view(), name='reserve_room'),
     # path('logout/', ),
 ]

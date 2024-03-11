@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from .validators import phone_validator
 
 
 class CustomUser(AbstractUser):

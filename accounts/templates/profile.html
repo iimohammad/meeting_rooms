@@ -1,14 +1,22 @@
-{% extends 'base.html' %} {% block title %}
-<title>Profile</title>
-{% endblock %} {% block body %}
-<section class="profile">
-  {%for key,value in profile.items%}
-  <p class="profile__text">{{key}} : {{value}}</p>
-  {%endfor%}
-  <img
-    class="profile__image"
-    src="http://localhost:8000/{{image}}"
-    alt="profile image"
-  />
-</section>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <!-- Add your CSS link here if needed -->
+</head>
+<body>
+    <div class="container">
+        <h1>User Profile</h1>
+        <ul>
+            <li><strong>User Name:</strong> {{ profile.username }}</li>
+            <li><strong>First Name:</strong> {{ profile.first_name }}</li>
+            <li><strong>Last Name:</strong> {{ profile.last_name }}</li>
+            <li><strong>Email:</strong> {{ profile.email }}</li>
+            <li><strong>Phone:</strong> {{ profile.phone }}</li>
+            <!-- Add more profile details here if needed -->
+        </ul>
+    </div>
+</body>
+</html>
