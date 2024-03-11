@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Detail</title>
+</head>
+<body>
+    <h1>Team Detail</h1>
+    <ul>
+        <li><strong>Name:</strong> {{ team.name }}</li>
+        <li><strong>Manager:</strong> {{ team.manager }}</li>
+        <li><strong>Permission:</strong> {% if team.permission %}Yes{% else %}No{% endif %}</li>
+        <li><strong>Priority:</strong> {{ team.priority }}</li>
+    </ul>
+</body>
+</html>

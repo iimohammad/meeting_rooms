@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team List</title>
+    <!-- Add your CSS link here if needed -->
+</head>
+<body>
+    <h1>Team List</h1>
+    <ul>
+        {% for team in teams %}
+            <li>
+                <a href="{% url 'team-detail' team.pk %}">{{ team.name }}</a>
+            </li>
+        {% empty %}
+            <li>No teams found.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

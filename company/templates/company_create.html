@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Team</title>
+    <title>Create Company</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -15,7 +15,6 @@
         h1 {
             text-align: center;
             color: #007bff;
-            margin-top: 50px;
         }
 
         form {
@@ -30,26 +29,23 @@
         input[type="text"],
         input[type="email"] {
             width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
+            padding: 10px;
+            margin-bottom: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
-            font-size: 16px;
         }
 
         input[type="submit"] {
             display: block;
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             background-color: #007bff;
             color: #fff;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.3s ease;
-            font-size: 16px;
-            margin-top: 20px;
         }
 
         input[type="submit"]:hover {
@@ -59,16 +55,15 @@
         .error-message {
             color: red;
             margin-top: 10px;
-            text-align: center;
         }
     </style>
 </head>
 <body>
-    <h1>Create Team</h1>
+    <h1>Create Company</h1>
     <form method="POST">
         {% csrf_token %}
         {{form.as_p}}
-        <input type="submit" value="Create Team">
+        <input type="submit" value="Create Company">
     </form>
     {% if form.errors %}
         <div class="error-message">{{ form.errors }}</div>
