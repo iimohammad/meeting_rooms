@@ -27,7 +27,7 @@ class UserTestCase(TestCase):
             b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x01\x00\x00\x00\x01\x00\x08\x06\x00\x00\x00\x1f\xf3\xffa\x00\x00\x00\tpHYs\x00\x00\n\x00\n\x00\x01\x00\x00\x00\x00\xa4\x7f\x00\x00\x00\x00IEND\xaeB`\x82'
         )
 
-        self.user = get_user_model().objects.create_user(**self.user_data)
+        self.user = get_user_model( ).objects.create_user(**self.user_data)
         self.client.login(username=self.user_data['username'], password=self.user_data['password'])
 
     def test_signup_view(self):
