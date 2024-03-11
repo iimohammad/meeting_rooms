@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 
-from . import Sample_local_settings
 from . import local_settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 
 
-SECRET_KEY = Sample_local_settings.Secret_key['secret_key']
+SECRET_KEY = local_settings.Secret_key['secret_key']
 
 STATIC_URL = '/static/'
 
@@ -49,8 +48,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    # local apps
     'company',
-
+    'message',
     'rooms',
     'accounts',
     'home',

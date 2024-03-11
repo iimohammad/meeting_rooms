@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404
 from .models import Post, Author
-from .foarm import CreatePostForm  # اضافه کردن فرم مربوطه
+from .forms import CreatePostForm  # اضافه کردن فرم مربوطه
 
 def post_update(request, post_id):
     # View function for updating a post.
