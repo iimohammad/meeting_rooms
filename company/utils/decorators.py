@@ -1,7 +1,7 @@
 from django.http import HttpResponseForbidden
 
 from django.http import HttpResponseForbidden
-from teams.models import Manager
+from company.models import Manager
 
 def manager_required(view_func):
     def wrapper(request, *args, **kwargs):

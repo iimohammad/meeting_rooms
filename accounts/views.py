@@ -15,6 +15,7 @@ from django.http import HttpResponse
 from django.urls import reverse
 from .models import CustomUser
 
+user = get_user_model
 
 
 class CustomLoginView(LoginView):

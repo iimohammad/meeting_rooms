@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Session Detail</title>
+</head>
+<body>
+    <h1>Session Detail</h1>
+    <p>Date: {{ session.date }}</p>
+    <p>Start Time: {{ session.start_time }}</p>
+    <p>End Time: {{ session.end_time }}</p>
+
+    <h2>Comments and Ratings</h2>
+    <ul>
+        {% for comment in comments %}
+            <li>{{ comment.user }} - Score: {{ comment.score }} - {{ comment.comment }}</li>
+        {% empty %}
+            <li>No comments or ratings yet.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

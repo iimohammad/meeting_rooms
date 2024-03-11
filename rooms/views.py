@@ -1,78 +1,166 @@
-
 import csv
 import json
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from django.views.generic import CreateView
+from .models import MeetingRoom, Sessions
 from time import sleep
-
-from django.http import JsonResponse, FileResponse, StreamingHttpResponse, HttpResponse
-from django.shortcuts import render ,get_object_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from .models import MeetingRoom, Sessions
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from .models import MeetingRoom, Reservation, Review, Company, UserProfile
 from django.contrib.auth.decorators import login_required
+from django.views.generic import DetailView
 
-def meeting_room_list(request):
-     return render(list(MeetingRoom.objects.all().values()), safe=False)
 
-def meeting_room_detail(request, room_id):
-    return render(request, 'meeting_room_detail.html', {'room': get_object_or_404(MeetingRoom, id=room_id)})
+@login_required
+class MeetingRoomListView(ListView):
+    model = MeetingRoom
+    template_name = 'meeting_room_list.html'
+    context_object_name = 'meeting_rooms'
 
-def reserve_room(request, room_id):
-    Reservation.objects.create(room=get_object_or_404(MeetingRoom, id=room_id), user=request.user)
-    return render('meeting_room_detail', room_id=room_id)
 
-def add_review(request, room_id):
-    Review.objects.create(room=get_object_or_404(MeetingRoom, id=room_id), user=request.user)
-    return render('meeting_room_detail', room_id=room_id)
+@login_required
+class ReserveMeetingRoomView(CreateView):
+    model = Sessions
+    fields = ['date', 'start_time', 'end_time']
+    template_name = 'reserve_meeting_room.html'
+
+    def form_valid(self, form):
+        room_name = self.kwargs['room_name']
+        room = get_object_or_404(MeetingRoom, room_name=room_name)
+
+        # Check if the user is a manager
+        if self.request.user.is_manager:
+            # Check if the meeting room is available at the specified date and time
+            date = form.cleaned_data['date']
+            start_time = form.cleaned_data['start_time']
+            end_time = form.cleaned_data['end_time']
+            if room.is_available(date, start_time, end_time):
+                # Create a new session for the reservation
+                form.instance.team = self.request.user.team  # Assuming the user is associated with a team
+                form.instance.meeting_room = room
+                return super().form_valid(form)
+            else:
+                # Meeting room is not available, display an error message
+                messages.error(self.request, 'The meeting room is not available at the specified date and time.')
+                return redirect('error_url')
+        else:
+            # User is not a manager, display an error message
+            messages.error(self.request, 'Only managers can reserve meeting rooms.')
+            return redirect('error_url')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        room_name = self.kwargs['room_name']
+        context['room'] = get_object_or_404(MeetingRoom, room_name=room_name)
+        return context
+
+
+@login_required
+class MeetingRoomRatingView(View):
+    def get(self, request, session_id):
+        session = get_object_or_404(Sessions, pk=session_id)
+        form = MeetingRoomRatingForm()
+        return render(request, 'meeting_room_rating_form.html', {'form': form, 'session': session})
+
+    def post(self, request, session_id):
+        session = get_object_or_404(Sessions, pk=session_id)
+        form = MeetingRoomRatingForm(request.POST)
+        if form.is_valid():
+            rating = form.save(commit=False)
+            rating.user = request.user
+            rating.meeting_room = session.meeting_room
+            rating.session = session
+            rating.save()
+            return redirect('success_url')
+        return render(request, 'meeting_room_rating_form.html', {'form': form, 'session': session})
+
 
 def stream_response():
     for i in range(100):
         yield f"{i}\\n"
-streaming_response = StreamingHttpResponse(stream_response())
-print(f"Type of StreamingHttpResponse: {type(streaming_response)}")
-http_response = HttpResponse("This is a simple HTTP response")
-print(f"Type of HttpResponse: {type(http_response)}")
+
 
 @login_required
-def reserve_room(request, room_id):
-    if request.method == 'POST':
-        room = MeetingRoom.objects.get(id=room_id)
-        reservation = Reservation(user=request.user, room=room)
-        reservation.save()
-        return HttpResponse('Reservation made successfully')
+def cancel_reservation(request, session_id):
+    # Retrieve the session object
+    session = get_object_or_404(Sessions, pk=session_id)
+
+    # Check if the current user is authorized to cancel the reservation
+    if self.request.user.is_manager:
+        # Attempt to cancel the reservation
+        session.delete()
+        return JsonResponse({'message': 'Reservation cancelled successfully.'})
     else:
-        return HttpResponse('Invalid request')
+        return JsonResponse({'error': 'Unauthorized to cancel reservation.'}, status=403)
+
 
 @login_required
-def cancel_reservation(request, reservation_id):
-    if request.method == 'POST':
-        reservation = Reservation.objects.get(id=reservation_id)
-        if reservation.user == request.user:
-            reservation.delete()
-            return HttpResponse('Reservation cancelled successfully')
-        else:
-            return HttpResponse('You do not have permission to cancel this reservation')
-    else:
-        return HttpResponse('Invalid request')
-    
-def company_list(request):
-    return render(request, 'company_list.html', {'companies': Company.objects.all()})
+class MeetingRoomSessionsListView(ListView):
+    model = Sessions
+    template_name = 'meeting_room_sessions_list.html'
+    context_object_name = 'sessions'
 
-def user_profile(request, user_id):
-    return render(request, 'user_profile.html', {'user_profile': get_object_or_404(UserProfile, user_id=user_id)})
+    def get_queryset(self):
+        # Get the meeting room ID from the URL parameters
+        meeting_room_id = self.kwargs['meeting_room_id']
 
-def review_list(request):
-    return render(request, 'review_list.html', {'reviews': Review.objects.filter(user=request.user)})
+        # Calculate the date range for the week
+        today = datetime.now().date()
+        end_of_week = today + timedelta(days=7)
 
-@csrf_exempt
-@require_http_methods(['POST'])
-def reserve_room(request, room_id):
-    Reservation.objects.create(room=get_object_or_404(MeetingRoom, id=room_id), user=request.user)
-    return JsonResponse('meeting_room_detail', room_id=room_id)
+        # Filter sessions for the specified meeting room and within the week
+        queryset = Sessions.objects.filter(
+            meeting_room=meeting_room_id,
+            date__range=[today, end_of_week]
+        ).order_by('date', 'start_time')
 
-@csrf_exempt
-@require_http_methods(['POST'])
-def cancel_reservation(request, reservation_id):
-    reservation = get_object_or_404(Reservation, id=reservation_id)
-    reservation.is_canceled = True
-    reservation.save()
-    return JsonResponse('meeting_room_detail', room_id=reservation.room.id)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['meeting_room_id'] = self.kwargs['meeting_room_id']
+        return context
+
+
+@login_required
+class SessionDetailView(DetailView):
+    model = Sessions
+    template_name = 'session_detail.html'
+    context_object_name = 'session'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Get all comments and ratings for this session
+        session_id = self.object.id
+        comments = MeetingRoomRating.objects.filter(meeting_room=self.object.meeting_room, session_id=session_id)
+
+        context['comments'] = comments
+        return context
+
+
+@login_required
+class MeetingRoomRatingsView(DetailView):
+    model = MeetingRoom
+    template_name = 'meeting_room_ratings.html'
+    context_object_name = 'meeting_room'
+    slug_field = 'room_name'
+    slug_url_kwarg = 'room_name'
+
+    def get_object(self, queryset=None):
+        room_name = self.kwargs.get(self.slug_url_kwarg)
+        queryset = self.get_queryset()
+        return get_object_or_404(queryset, room_name=room_name)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Retrieve all ratings for the meeting room
+        context['ratings'] = MeetingRoomRating.objects.filter(meeting_room=self.object)
+        return context
