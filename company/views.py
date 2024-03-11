@@ -9,6 +9,7 @@ from .models import Team, Company
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
+# need to modify permissions and just manager of company can manage teams and company
 
 
 # Team Views
