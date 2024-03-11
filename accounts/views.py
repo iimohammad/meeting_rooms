@@ -84,3 +84,5 @@ def edit_profile_view(request):
     }
     context = {'profile': profile}
     return render(request, 'editprofile.html', context)
+
+
