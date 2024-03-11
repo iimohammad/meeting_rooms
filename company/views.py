@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 # from utils.decorators import *
 from django.views.generic import UpdateView
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DeleteView, UpdateView
+from django.views.generic import CreateView, DeleteView, UpdateView,ListView
 from .models import Team, Company
 
 
@@ -86,18 +86,18 @@ def show_team_reservations(request, team_id):
         return render(request, 'reservations.html', {'reservations': reservations})
 
 
-@login_required
-class TeamManagerUpdateView(UpdateView):
-    model = Manager
-    form_class = ManagerForm
-    fields = ['user']
-    template_name = 'update_manager.html'
-    success_url = reverse_lazy('show_team_members')
-
-    def get_object(self, queryset=None):
-        team_id = self.kwargs.get('team_id')
-        team_manager = get_object_or_404(Manager, user=self.request.user, team_id=team_id)
-        return team_manager
+# @login_required
+# class TeamManagerUpdateView(UpdateView):
+#     model = Manager
+#     form_class = ManagerForm
+#     fields = ['user']
+#     template_name = 'update_manager.html'
+#     success_url = reverse_lazy('show_team_members')
+#
+#     def get_object(self, queryset=None):
+#         team_id = self.kwargs.get('team_id')
+#         team_manager = get_object_or_404(Manager, user=self.request.user, team_id=team_id)
+#         return team_manager
 
 
 # @login_required

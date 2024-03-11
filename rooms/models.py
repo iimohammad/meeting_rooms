@@ -10,11 +10,11 @@ class MeetingRoom(models.Model):
     room_name = models.CharField(max_length=20)
     capacity = models.PositiveBigIntegerField()
     location = models.CharField(max_length=50)
-    is_active = models.BooleanField(default=True)
+    available = models.BooleanField(default=True)
     company = models.ForeignKey('company.Company', on_delete=models.CASCADE)
 
     def is_available(self, date, start_time, end_time):
-        if not self.is_active:
+        if not self.available:
             return False
 
         # Check if there are any overlapping sessions

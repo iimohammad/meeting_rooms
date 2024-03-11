@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
 from accounts.models import CustomUser
 from django.contrib.auth import get_user_model
+from .validators import phone_validator
+
 
 User = get_user_model()
 
