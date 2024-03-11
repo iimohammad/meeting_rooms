@@ -89,3 +89,16 @@ class CompanyListView(ListView):
     model = Company
     template_name = 'company_list.html'
     context_object_name = 'companies'
+
+
+class TeamMemberListView(DetailView):
+    model = Team
+    template_name = 'team_member_list.html'
+    context_object_name = 'team'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        team = self.get_object()
+        members = team.members.all()
+        context['members'] = members
+        return context

@@ -9,5 +9,4 @@ urlpatterns = [
     path('delete/<int:pk>/', TeamDeleteView.as_view(), name='delete-team'),
     path('team/<int:pk>/', TeamDetailView.as_view(), name='team-detail'),
     path('delete/<int:team_id>/', TeamDeleteView.as_view(), name='delete-team'),
-
 ]
