@@ -4,18 +4,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
-    <!-- Add your CSS link here if needed -->
+    <style>
+        /* CSS styles */
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 30px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 15px;
+        }
+
+        strong {
+            color: #007bff;
+        }
+
+        /* Circular profile photo */
+        .profile-photo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .rounded-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 2px solid #007bff;
+            object-fit: cover;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h1>User Profile</h1>
+
+        <div class="profile-photo">
+            <img src="/profile_images/{{ image }}" alt="Profile Photo" class="rounded-photo">
+        </div>
+
         <ul>
-            <li><strong>User Name:</strong> {{ profile.username }}</li>
-            <li><strong>First Name:</strong> {{ profile.first_name }}</li>
-            <li><strong>Last Name:</strong> {{ profile.last_name }}</li>
-            <li><strong>Email:</strong> {{ profile.email }}</li>
-            <li><strong>Phone:</strong> {{ profile.phone }}</li>
-            <!-- Add more profile details here if needed -->
+            {% for key, value in profile.items %}
+                <li><strong>{{ key }}:</strong> {{ value }}</li>
+            {% endfor %}
         </ul>
     </div>
 </body>

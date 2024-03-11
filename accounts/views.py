@@ -55,11 +55,12 @@ class SignupView(CreateView):
 @login_required
 def profile_view(request):
     print("--------------------")
-    print(request.user)
+    # print(request.user.username)
     profile = request.user
+    # print(profile.username)
     context = {
         'profile': {
-            'User Name': profile.get_username(),
+            'User Name': profile.username,
             'First Name': profile.first_name,
             'Last Name': profile.last_name,
             'Email': profile.email,
