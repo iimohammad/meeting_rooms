@@ -13,19 +13,57 @@ from .models import MeetingRoom, Sessions
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
-from .models import MeetingRoom, Reservation, Review, Company, UserProfile
+from .models import *
 from django.contrib.auth.decorators import login_required
 from django.views.generic import DetailView
+from django.views.generic.edit import UpdateView
+from django.views.generic import ListView
+from django.views.generic.edit import DeleteView
+from django.views import View
+from django.utils.decorators import method_decorator
 
 
-@login_required
+# CRUD Meeting Rooms
+class MeetingRoomCreateView(CreateView):
+    model = MeetingRoom
+    fields = ['room_name', 'capacity', 'location', 'available', 'company']
+    success_url = reverse_lazy('meeting-room-list')
+    template_name = 'meeting_room_create.html'
+
+
+class MeetingRoomListView(ListView):
+    model = MeetingRoom
+    template_name = 'meeting_room_list.html'
+    context_object_name = 'meeting_room'
+
+
+class MeetingRoomDetailView(DetailView):
+    model = MeetingRoom
+    template_name = 'detail_view_room.html'
+    context_object_name = 'meeting_room'
+
+
+class MeetingRoomUpdateView(UpdateView):
+    model = MeetingRoom
+    fields = ['room_name', 'capacity', 'location', 'available', 'company']
+    success_url = reverse_lazy('meeting-room-list')
+    template_name = 'meeting_room_update.html'
+
+
+class MeetingRoomDeleteView(DeleteView):
+    model = MeetingRoom
+    success_url = reverse_lazy('meeting-room-list')
+    template_name = 'meeting_room_confirm_delete.html'
+
+
+@method_decorator(login_required, name='dispatch')
 class MeetingRoomListView(ListView):
     model = MeetingRoom
     template_name = 'meeting_room_list.html'
     context_object_name = 'meeting_rooms'
 
 
-@login_required
+@method_decorator(login_required, name='dispatch')
 class ReserveMeetingRoomView(CreateView):
     model = Sessions
     fields = ['date', 'start_time', 'end_time']
@@ -62,7 +100,7 @@ class ReserveMeetingRoomView(CreateView):
         return context
 
 
-@login_required
+@method_decorator(login_required, name='dispatch')
 class MeetingRoomRatingView(View):
     def get(self, request, session_id):
         session = get_object_or_404(Sessions, pk=session_id)
@@ -101,7 +139,7 @@ def cancel_reservation(request, session_id):
         return JsonResponse({'error': 'Unauthorized to cancel reservation.'}, status=403)
 
 
-@login_required
+@method_decorator(login_required, name='dispatch')
 class MeetingRoomSessionsListView(ListView):
     model = Sessions
     template_name = 'meeting_room_sessions_list.html'
@@ -129,7 +167,7 @@ class MeetingRoomSessionsListView(ListView):
         return context
 
 
-@login_required
+@method_decorator(login_required, name='dispatch')
 class SessionDetailView(DetailView):
     model = Sessions
     template_name = 'session_detail.html'
@@ -146,7 +184,7 @@ class SessionDetailView(DetailView):
         return context
 
 
-@login_required
+@method_decorator(login_required, name='dispatch')
 class MeetingRoomRatingsView(DetailView):
     model = MeetingRoom
     template_name = 'meeting_room_ratings.html'

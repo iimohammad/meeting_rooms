@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Room Detail</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #007bff;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        .detail-label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Meeting Room Detail</h1>
+        <div>
+            <p class="detail-label">Room Name:</p>
+            <p>{{ meeting_room.room_name }}</p>
+        </div>
+        <div>
+            <p class="detail-label">Capacity:</p>
+            <p>{{ meeting_room.capacity }}</p>
+        </div>
+        <div>
+            <p class="detail-label">Location:</p>
+            <p>{{ meeting_room.location }}</p>
+        </div>
+        <div>
+            <p class="detail-label">Available:</p>
+            <p>{{ meeting_room.available }}</p>
+        </div>
+        <div>
+            <p class="detail-label">Company:</p>
+            <p>{{ meeting_room.company }}</p>
+        </div>
+    </div>
+</body>
+</html>

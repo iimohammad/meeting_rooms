@@ -7,7 +7,7 @@ user = get_user_model()
 
 
 class MeetingRoom(models.Model):
-    room_name = models.CharField(max_length=20)
+    room_name = models.CharField(max_length=20, unique=True)
     capacity = models.PositiveBigIntegerField()
     location = models.CharField(max_length=50)
     available = models.BooleanField(default=True)
@@ -61,6 +61,6 @@ class MeetingRoomRating(models.Model):
     def can_add_comment(self):
         if self.created_at:
             return (
-                        timezone.now() - self.created_at).total_seconds() / 3600 < 24 and self.meeting_room.sessions_set.filter(
+                    timezone.now() - self.created_at).total_seconds() / 3600 < 24 and self.meeting_room.sessions_set.filter(
                 end_time__lte=timezone.now()).exists()
         return False
