@@ -18,10 +18,10 @@ class CreateTeamForm(forms.ModelForm):
         return name
 
 
-class ManagerForm(forms.ModelForm):
-    class Meta:
-        model = Manager
-        fields = ['user', 'team']
+# class ManagerForm(forms.ModelForm):
+#     class Meta:
+#         model = Manager
+#         fields = ['user', 'team']
 
 
 class TeamForm(forms.ModelForm):

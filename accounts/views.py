@@ -22,12 +22,8 @@ class CustomLoginView(LoginView):
     template_name = 'login.html'
     redirect_authenticated_user = True
 
-    def form_valid(self, form):
-        self.user = form.get_user()
-        if self.user.is_authenticated:
-            profile_url = reverse('profile_view')
-            return redirect(profile_url)
-        return super().form_valid(form)
+    def get_success_url(self):
+        return reverse('profile_view')
 
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
@@ -58,16 +54,18 @@ class SignupView(CreateView):
 
 @login_required
 def profile_view(request):
-    user = request.user
+    print("--------------------")
+    print(request.user)
+    profile = request.user
     context = {
         'profile': {
-            'User Name': user.get_username(),
-            'First Name': user.first_name,
-            'Last Name': user.last_name,
-            'Email': user.email,
-            'Phone': user.phone,
+            'User Name': profile.get_username(),
+            'First Name': profile.first_name,
+            'Last Name': profile.last_name,
+            'Email': profile.email,
+            'Phone': profile.phone,
         },
-        'image': user.profile_image,
+        'image': profile.profile_image,
     }
     return render(request, 'profile.html', context=context)
 
