@@ -1,5 +1,5 @@
 from django.test import TestCase
-from django.contrib.auth.models import get_user_model
+from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.contrib import messages
 from django.shortcuts import redirect , get_object_or_404
@@ -27,7 +27,7 @@ def post_update(request, post_id):
 class PostViewTests(TestCase):
     def setUp(self):
         # Create a test user
-        self.user = get_user_model().objects.create_user(
+        self.UserProfile = UserProfile.objects.create(
             username='testuser',
             password='testpassword',
             email='test@example.com'
@@ -79,7 +79,7 @@ class PostViewTests(TestCase):
         self.assertTrue(self.meeting_room.available)
 
     def test_post_update_view_GET(self):
-        post = post.objects.create(body='Original post body', author=self.user)
+        post =post.objects.create(body='Original post body', author=self.user)
 
         self.client.force_login(self.user)
 
