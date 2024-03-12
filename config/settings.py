@@ -50,10 +50,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'company',
-
     'rooms',
     'accounts',
     'home',
+    'notification',
 
 ]
 AUTHENTICATION_BACKENDS = [

@@ -10,6 +10,7 @@ urlpatterns = [
     path("__debug__/", include("debug_toolbar.urls")),
     path('company/', include('company.urls')),
     path('rooms/', include('rooms.urls')),
+    path('notification/', include('notification.urls')),
     path('', include('home.urls'))
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
