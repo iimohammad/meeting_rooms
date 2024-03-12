@@ -34,23 +34,26 @@ python manage.py loaddata
 ```
 
 ### Test 
+To run the tests for the project, execute the following command:
 ```bash
 py manage.py test
 ```
 ### Check Coverage Tests
-
+To check the test coverage, you need to install the coverage tool. If you haven't installed it yet, you can do so using pip:
 ```bash
 pip install coverage
 ```
-
+Once installed, you can run the tests with coverage and generate coverage reports.
+Run the tests with coverage:
 ```bash
 coverage run --source='.' manage.py test
 ```
-
+Generate a coverage report:
 ```bash
 coverage report
 ```
-
+This command will display the coverage report in the terminal, showing which parts of the code are covered by the tests.
+Optionally, you can generate an HTML report for a more detailed view:
 ```bash
 coverage html
 ```
