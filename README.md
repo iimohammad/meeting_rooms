@@ -13,7 +13,7 @@ To run the Meeting Room Reservation System locally, follow these steps:
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/meeting-room-reservation.git
+git clone https://github.com/iimohammad/meeting-room.git
 ```
 Navigate to the project directory:
 ```bash
@@ -49,7 +49,7 @@ and copy contents of Sample_local_settings.py in that file, and complete it.
 -View the list of available meeting rooms.
 -Select a room, date, and time for your reservation.
 -Confirm your reservation.
-`To cancel a reservation, navigate to your profile page and select the reservation to cancel.
+-To cancel a reservation, navigate to your profile page and select the reservation to cancel.
 ##Admin Interface
 The admin interface can be accessed at `http://localhost:8000/admin`. You can log in with the superuser account created during setup. From the admin interface, you can manage users, meeting rooms, and reservations.
 
