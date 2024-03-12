@@ -1,5 +1,5 @@
 from django import forms
-from .models import Sessions
+from .models import *
 from django.core.exceptions import ValidationError
 
 
@@ -24,3 +24,7 @@ class ReserveMeetingRoomForm(forms.ModelForm):
                 raise ValidationError("This meeting room is not available at the specified time and date.")
 
         return cleaned_data
+
+
+class MeetingRoomRatingForm(forms.ModelForm):
+    pass

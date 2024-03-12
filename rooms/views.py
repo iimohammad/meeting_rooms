@@ -21,7 +21,7 @@ from django.views.generic import ListView
 from django.views.generic.edit import DeleteView
 from django.views import View
 from django.utils.decorators import method_decorator
-from .foarm import ReserveMeetingRoomForm
+from .foarm import ReserveMeetingRoomForm, MeetingRoomRatingForm
 from django.contrib import messages
 from django.shortcuts import redirect
 from company.models import *
@@ -102,6 +102,7 @@ class ReserveMeetingRoomView(CreateView):
         return context
 
 
+@method_decorator(login_required, name='dispatch')
 class Reservation_Show(ListView):
     model = Sessions
     template_name = 'session_list.html'
@@ -138,40 +139,61 @@ class Reservation_Cancel(DeleteView):
 # Handling Comments and Scores about rooms and sessions
 
 @method_decorator(login_required, name='dispatch')
-class MeetingRoomRatingView(View):
-    def get(self, request, session_id):
-        session = get_object_or_404(Sessions, pk=session_id)
-        form = MeetingRoomRatingForm()
-        return render(request, 'meeting_room_rating_form.html', {'form': form, 'session': session})
+class MeetingRoomRatingCreate(CreateView):
+    model = MeetingRoomRating
+    fields = ['meeting_room', 'score', 'comment']
+    template_name = 'meeting_room_rating_form.html'
+    success_url = reverse_lazy('meeting-room-list')
 
-    def post(self, request, session_id):
-        session = get_object_or_404(Sessions, pk=session_id)
-        form = MeetingRoomRatingForm(request.POST)
-        if form.is_valid():
-            rating = form.save(commit=False)
-            rating.user = request.user
-            rating.meeting_room = session.meeting_room
-            rating.session = session
-            rating.save()
-            return redirect('success_url')
-        return render(request, 'meeting_room_rating_form.html', {'form': form, 'session': session})
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.meeting_room_id = self.kwargs['pk']
+        return super().form_valid(form)
 
 
 @method_decorator(login_required, name='dispatch')
-class MeetingRoomRatingsView(DetailView):
-    model = MeetingRoom
-    template_name = 'meeting_room_ratings.html'
-    context_object_name = 'meeting_room'
-    slug_field = 'room_name'
-    slug_url_kwarg = 'room_name'
+class SessionRatingCreate(CreateView):
+    model = SessionRating
+    fields = ['score', 'comment']
+    template_name = 'session_rating_form.html'
 
-    def get_object(self, queryset=None):
-        room_name = self.kwargs.get(self.slug_url_kwarg)
-        queryset = self.get_queryset()
-        return get_object_or_404(queryset, room_name=room_name)
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.session_id = self.kwargs['pk']
+        return super().form_valid(form)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # Retrieve all ratings for the meeting room
-        context['ratings'] = MeetingRoomRating.objects.filter(meeting_room=self.object)
-        return context
+
+@method_decorator(login_required, name='dispatch')
+class MeetingRoomRatingUpdate(UpdateView):
+    model = MeetingRoomRating
+    fields = ['score', 'comment']
+    template_name = 'meeting_room_rating_form.html'
+    success_url = reverse_lazy('meeting-room-list')
+
+
+@method_decorator(login_required, name='dispatch')
+class SessionRatingUpdate(UpdateView):
+    model = SessionRating
+    fields = ['score', 'comment']
+    template_name = 'session_rating_form.html'
+    success_url = reverse_lazy('show_reservations')
+
+
+@method_decorator(login_required, name='dispatch')
+class RoomCommentsListView(ListView):
+    template_name = 'room_comments.html'
+    context_object_name = 'room_ratings'
+
+    def get_queryset(self):
+        room_id = self.kwargs['room_id']
+        return MeetingRoomRating.objects.filter(meeting_room_id=room_id)
+
+
+@method_decorator(login_required, name='dispatch')
+class SessionCommentsListView(ListView):
+    template_name = 'session_comments.html'
+    context_object_name = 'session_ratings'
+
+    def get_queryset(self):
+        session_id = self.kwargs['session_id']
+        return SessionRating.objects.filter(session_id=session_id)
