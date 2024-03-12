@@ -15,15 +15,12 @@ urlpatterns = [
     path('cancel_reservation/<int:pk>/cancel/', Reservation_Cancel.as_view(), name='cancel_reservation'),
 
     # Handling Comments and Scores about Rooms
-    path('meeting_room/<str:room_name>/ratings/', MeetingRoomRatingsView.as_view(), name='meeting_room_ratings'),
-    #add rating for room
-    #delete rating for room
-    #edit rating for room
-    #list of ratings for room
+    path('meeting_room/<int:pk>/rate/', MeetingRoomRatingCreate.as_view(), name='rate_meeting_room'),
+    path('meeting_room/rating/<int:pk>/update/', MeetingRoomRatingUpdate.as_view(),
+         name='update_meeting_room_rating'),
+    path('session/<int:pk>/rate/', SessionRatingCreate.as_view(), name='rate_session'),
+    path('session/rating/<int:pk>/update/', SessionRatingUpdate.as_view(), name='update_session_rating'),
 
-    # Handling Comments and Scores about Sessions
-    # add rating for Sessions
-    # delete rating for Sessions
-    # edit rating for Sessions
-    # list of ratings for Sessions
+    path('room/<int:room_id>/comments/', RoomCommentsListView.as_view(), name='room_comments'),
+    path('session/<int:session_id>/comments/', SessionCommentsListView.as_view(), name='session_comments'),
 ]
