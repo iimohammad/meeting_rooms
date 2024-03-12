@@ -13,7 +13,17 @@ urlpatterns = [
     path('reserve', ReserveMeetingRoomView.as_view(), name='reserve'),
     path('show_reservations', Reservation_Show.as_view(), name='show_reservations'),
     path('cancel_reservation/<int:pk>/cancel/', Reservation_Cancel.as_view(), name='cancel_reservation'),
+
+    # Handling Comments and Scores about Rooms
     path('meeting_room/<str:room_name>/ratings/', MeetingRoomRatingsView.as_view(), name='meeting_room_ratings'),
-    path('meeting-rooms/', MeetingRoomListView.as_view(), name='meeting_room_list'),
-    # path('sessions/<int:session_id>/cancel/', cancel_reservation, name='cancel_reservation'),
+    #add rating for room
+    #delete rating for room
+    #edit rating for room
+    #list of ratings for room
+
+    # Handling Comments and Scores about Sessions
+    # add rating for Sessions
+    # delete rating for Sessions
+    # edit rating for Sessions
+    # list of ratings for Sessions
 ]
