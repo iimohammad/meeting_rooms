@@ -44,20 +44,20 @@ and copy contents of Sample_local_settings.py in that file, and complete it.
 ### Config Settings
 
 ## Usage
--Navigate to the application URL in your web browser.
--Register for a new account or log in with an existing account.
--View the list of available meeting rooms.
--Select a room, date, and time for your reservation.
--Confirm your reservation.
--To cancel a reservation, navigate to your profile page and select the reservation to cancel.
+- Navigate to the application URL in your web browser.
+- Register for a new account or log in with an existing account.
+- View the list of available meeting rooms.
+- Select a room, date, and time for your reservation.
+- Confirm your reservation.
+- To cancel a reservation, navigate to your profile page and select the reservation to cancel.
 ##Admin Interface
 The admin interface can be accessed at `http://localhost:8000/admin`. You can log in with the superuser account created during setup. From the admin interface, you can manage users, meeting rooms, and reservations.
 
 ## Technologies Used
--Django
--HTML/CSS
--JavaScript (optional, for frontend interactivity)
--SQLite (default database)
+- Django
+- HTML/CSS
+- JavaScript (optional, for frontend interactivity)
+- SQLite (default database)
 
 ## How to Test Project 
 
@@ -92,11 +92,11 @@ coverage html
 ```
 
 ## Contributors
--Mohammad Baharlou
--Masih Shafiei
--Amirhosein Farahani
--Amirabas Afrasiabi
--Peyman Shojaei
+- Mohammad Baharlou
+- Masih Shafiei
+- Amirhosein Farahani
+- Amirabas Afrasiabi
+- Peyman Shojaei
 
 ## Mentor 
 Seyed MohammadAli Golestani
