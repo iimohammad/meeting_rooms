@@ -50,7 +50,7 @@ and copy contents of Sample_local_settings.py in that file, and complete it.
 - Select a room, date, and time for your reservation.
 - Confirm your reservation.
 - To cancel a reservation, navigate to your profile page and select the reservation to cancel.
-- 
+
 ## Admin Interface
 The admin interface can be accessed at `http://localhost:8000/admin`. You can log in with the superuser account created during setup. From the admin interface, you can manage users, meeting rooms, and reservations.
 
