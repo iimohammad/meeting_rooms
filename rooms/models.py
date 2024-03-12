@@ -26,6 +26,9 @@ class MeetingRoom(models.Model):
         )
         return not overlapping_sessions.exists()
 
+    def __str__(self):
+        return self.room_name
+
 
 class Sessions(models.Model):
     team = models.ForeignKey('company.Team', on_delete=models.CASCADE)
@@ -33,6 +36,9 @@ class Sessions(models.Model):
     date = models.DateField()
     start_time = models.TimeField()
     end_time = models.TimeField()
+
+    class Meta:
+        ordering = ['date', 'start_time']
 
     def is_past(self):
         return timezone.now() > timezone.datetime.combine(self.date, self.end_time)

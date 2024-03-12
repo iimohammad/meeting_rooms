@@ -9,7 +9,7 @@ User = get_user_model()
 
 
 class Company(models.Model):
-    name = models.CharField(max_length=15)
+    name = models.CharField(max_length=15,unique=True)
     phone = models.CharField(max_length=15, validators=[phone_validator], blank=True)
     address = models.CharField(max_length=120)
 
@@ -19,7 +19,7 @@ class Company(models.Model):
 
 class Team(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50,unique=True)
     manager = models.ForeignKey(User, on_delete=models.CASCADE, related_name='managed_teams')
     permission = models.BooleanField(default=True)
     priority = models.PositiveSmallIntegerField(default=5)
