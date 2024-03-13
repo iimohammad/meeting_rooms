@@ -1,20 +1,27 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
     <head>
-        {% if members.0 %}
-            <h1>{{members.0.team.name}} Team's Members</h1>
-        {% else %}
-            <h3>This team has no members!</h3>
-        {% endif %}
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Team's Members' List</title>
     </head>
     <br>
     <body>
-        {% for member in members %}
-            {% if member.manager %}
-                <p>{{member.username}}: {{member.first_name}} {{member.last_name}} <span style="color: green;">(The Team Manager)</span></p>
-            {% else %}
-                <p>{{member.username}}: {{member.first_name}} {{member.last_name}}</p>
-            {% endif %}
-        {% endfor %}
+        <h1>{{team}} Team's Members</h1>
+        <ul>
+            {% for member in members %}
+                <li>
+                    {% if team in member.managed_teams.all %}
+                        <p>{{member.username}}: {{member.first_name}} {{member.last_name}} <span style="color: green;">(The Team Manager)</span></p>
+                        <p>(<a href="{% url 'delete-member' team.id member.id %}">Delete this member from team?</a>)</p>
+                    {% else %}
+                        <p>{{member.username}}: {{member.first_name}} {{member.last_name}}</p>
+                        <p>(<a href="{% url 'delete-member' team.id member.id %}">Delete this member from team?</a>)</p>
+                    {% endif %}
+                </li>
+            {% empty %}
+                <li>No members found.</li>
+            {% endfor %}
+        </ul>
     </body>
 </html>

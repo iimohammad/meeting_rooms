@@ -4,14 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Team List</title>
-    <!-- Add your CSS link here if needed -->
 </head>
 <body>
     <h1>Team List</h1>
     <ul>
         {% for team in teams %}
             <li>
-                <a href="{% url 'team-detail' team.pk %}">{{ team.name }}</a>
+                <p><a href="{% url 'team-detail' team.pk %}"><strong>{{team.name}} Team</strong></a></p>
+                <p>Managed by {{team.manager.first_name}} {{team.manager.last_name}}</p>
+                <p>(
+                    <a href="{% url 'team-members' team.pk %}">See the members</a><a> - </a>
+                    <a href="{% url 'delete-team' team.pk %}">Delete team</a><a> - </a>
+                    <a href="{% url 'team-sessions' team.pk %}">Team's reservations</a>
+                )</p>
             </li>
         {% empty %}
             <li>No teams found.</li>

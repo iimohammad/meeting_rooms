@@ -1,14 +1,13 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from .models import *
+from django.shortcuts import redirect, render, get_object_or_404
 from .forms import *
 from django.contrib.auth.decorators import login_required
-from django.views.generic import UpdateView
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DeleteView, UpdateView, ListView
+from django.views.generic import CreateView, DeleteView, UpdateView, ListView, DetailView, View
 from .models import Team, Company
 from django.utils.decorators import method_decorator
-from django.views.generic import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import Http404
+from django.contrib import messages
 
 
 # Team Views
@@ -16,23 +15,33 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 class TeamCreateView(CreateView):
     model = Team
     fields = ['company', 'name', 'manager', 'members']
-    template_name = 'team_create.html'
-    success_url = reverse_lazy('home:home')
+    template_name = 'create_team.html'
+
+    def get_success_url(self):
+        company_id = self.object.company.id
+        return reverse_lazy('team-list', kwargs={'company_id': company_id})
 
 
 @method_decorator(login_required, name='dispatch')
 class TeamDeleteView(DeleteView):
     model = Team
     template_name = 'team_confirm_delete.html'
-    success_url = reverse_lazy('home:home')
+    success_url = reverse_lazy('team-list')
+
+    def get_success_url(self):
+        company_id = self.object.company.id
+        return reverse_lazy('team-list', kwargs={'company_id': company_id})
 
 
 @method_decorator(login_required, name='dispatch')
 class TeamUpdateView(UpdateView):
     model = Team
     fields = ['company', 'name', 'manager']
-    template_name = 'team_update.html'
-    success_url = reverse_lazy('team-list')  # Redirect to team list after successful update
+    template_name = 'update_team.html'
+    
+    def get_success_url(self):
+        company_id = self.object.company.id
+        return reverse_lazy('team-list', kwargs={'company_id': company_id})
 
 
 @method_decorator(login_required, name='dispatch')
@@ -56,9 +65,37 @@ class TeamMembersListView(LoginRequiredMixin, ListView):
     context_object_name = 'members'
 
     def get_queryset(self):
-        team_id = self.kwargs.get('team_id')
+        team_id = self.kwargs.get('pk')
         team = get_object_or_404(Team, id=team_id)
-        return team.customuser_set.all()
+        return team.members.all()
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        team_id = self.kwargs.get('pk')
+        team = get_object_or_404(Team, id=team_id)
+        context['team'] = team
+        return context
+
+
+class MemberDeleteView(View):
+    template_name = 'member_delete.html'
+
+    def get(self, request, team_id, member_id):
+        team = get_object_or_404(Team, id=team_id)
+        member = get_object_or_404(CustomUser, id=member_id)
+        team.members.remove(member)
+        messages.success(request, f"{member} has been removed from {team.name}.")
+
+        return redirect('team-members', pk=team.id)
+
+
+class TeamSessionsView(View):
+    template_name = 'sessions.html'
+
+    def get(self, request, pk):
+        team = get_object_or_404(Team, id=pk)
+        sessions = team.sessions_set.all()
+        return render(request, self.template_name, {'sessions': sessions})
 
 
 # Company Views

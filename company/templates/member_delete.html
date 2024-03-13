@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Member Deletion</title>
+</head>
+<body>
+    <h1>Confirm Member Deletion</h1>
+    <ul>
+        <li><p>Are you sure you want to remove this member from the team?</p></li>
+        <li>
+            <form method="post">
+                {% csrf_token %}
+                <input type="submit" value="Yes, I'm sure">
+            </form>
+        </li>
+    </ul>
+</body>
+</html>
