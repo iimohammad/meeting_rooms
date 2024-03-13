@@ -103,7 +103,7 @@ class CompanyCreateView(CreateView):
     model = Company
     fields = ['name', 'phone', 'address']
     template_name = 'company_create.html'
-    # success_url = reverse_lazy('company-list')
+    success_url = reverse_lazy('company-list')
 
 
 class CompanyUpdateView(UpdateView):
