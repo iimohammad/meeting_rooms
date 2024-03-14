@@ -6,12 +6,9 @@ from django.views.generic import CreateView, DeleteView, UpdateView, ListView, D
 from .models import Team, Company
 from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin
-<<<<<<< HEAD
 from django.http import Http404
 from django.contrib import messages
-=======
-# need to modify permissions and just manager of company can manage teams and company
->>>>>>> main
+
 
 
 # Team Views
@@ -30,10 +27,6 @@ class TeamCreateView(CreateView):
 class TeamDeleteView(DeleteView):
     model = Team
     template_name = 'team_confirm_delete.html'
-<<<<<<< HEAD
-    success_url = reverse_lazy('team-list')
-=======
->>>>>>> main
 
     def get_success_url(self):
         company_id = self.object.company.id
@@ -43,20 +36,13 @@ class TeamDeleteView(DeleteView):
 @method_decorator(login_required, name='dispatch')
 class TeamUpdateView(UpdateView):
     model = Team
-<<<<<<< HEAD
     fields = ['company', 'name', 'manager']
     template_name = 'update_team.html'
     
     def get_success_url(self):
         company_id = self.object.company.id
         return reverse_lazy('team-list', kwargs={'company_id': company_id})
-=======
-    fields = ['company', 'name', 'manager', 'members']
-    template_name = 'team_update.html'
 
-    def get_success_url(self):
-        return reverse_lazy('team-detail', kwargs={'pk': self.object.pk})
->>>>>>> main
 
 
 @method_decorator(login_required, name='dispatch')
@@ -74,7 +60,6 @@ class TeamDetailView(DetailView):
     template_name = 'team_detail.html'
 
 
-<<<<<<< HEAD
 class TeamMembersListView(LoginRequiredMixin, ListView):
     model = Team
     template_name = 'team_members.html'
@@ -114,18 +99,14 @@ class TeamSessionsView(View):
         return render(request, self.template_name, {'sessions': sessions})
 
 
-=======
->>>>>>> main
+
 # Company Views
 class CompanyCreateView(CreateView):
     model = Company
     fields = ['name', 'phone', 'address']
     template_name = 'company_create.html'
-<<<<<<< HEAD
     success_url = reverse_lazy('company-list')
-=======
-    success_url = reverse_lazy('home:home')
->>>>>>> main
+
 
 
 class CompanyUpdateView(UpdateView):
