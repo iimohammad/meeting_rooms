@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
-
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import get_user_model
@@ -16,7 +15,7 @@ from django.urls import reverse
 from .models import CustomUser
 from .forms import EditProfileForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from notification.utils import *
 user = get_user_model
 
 
@@ -51,6 +50,9 @@ class SignupView(CreateView):
         If the form is valid, save the associated model.
         """
         response = super().form_valid(form)
+
+        user = form.instance
+        send_sign_up_notification(user.email)
         return response
 
 

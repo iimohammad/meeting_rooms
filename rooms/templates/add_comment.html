@@ -1,0 +1,26 @@
+<!-- add_comment.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Comment</title>
+</head>
+<body>
+    <h1>Add Comment</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+
+    <h2>Sessions</h2>
+    <ul>
+        {% for session in past_sessions %}
+            <li>{{ session }}</li>
+        {% empty %}
+            <li>No past sessions available.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
