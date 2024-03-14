@@ -2,9 +2,12 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.conf import settings
 from django.utils import timezone
+import pytz
+
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import gettext_lazy as _
-import pytz
+
+
 
 user = get_user_model()
 utc = pytz.UTC

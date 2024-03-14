@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company List</title>
+</head>
+<body>
+    <h1>Company List</h1>
+    <ul>
+        {% for company in companies %}
+            <li>
+                <p><strong>{{company.name}} Company</strong></p>
+                <p>Company's Name: {{company.name}}</p>
+                <p>Company's Phone: {{company.phone}}</p>
+                <p>Company's Address: {{company.address}}</p>
+                <p>(
+                    <a href="{% url 'update-company' company.pk %}">Update company</a><a> - </a>
+                    <a href="{% url 'delete-company' company.pk %}">Delete company</a>
+                )</p>
+            </li>
+        {% empty %}
+            <li>No companies found.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

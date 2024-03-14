@@ -10,6 +10,7 @@ from django.http import Http404
 from django.contrib import messages
 
 
+
 # Team Views
 @method_decorator(login_required, name='dispatch')
 class TeamCreateView(CreateView):
@@ -35,11 +36,13 @@ class TeamDeleteView(DeleteView):
 @method_decorator(login_required, name='dispatch')
 class TeamUpdateView(UpdateView):
     model = Team
-    fields = ['company', 'name', 'manager', 'members']
-    template_name = 'team_update.html'
-
+    fields = ['company', 'name', 'manager']
+    template_name = 'update_team.html'
+    
     def get_success_url(self):
-        return reverse_lazy('team-detail', kwargs={'pk': self.object.pk})
+        company_id = self.object.company.id
+        return reverse_lazy('team-list', kwargs={'company_id': company_id})
+
 
 
 @method_decorator(login_required, name='dispatch')
@@ -57,12 +60,53 @@ class TeamDetailView(DetailView):
     template_name = 'team_detail.html'
 
 
+class TeamMembersListView(LoginRequiredMixin, ListView):
+    model = Team
+    template_name = 'team_members.html'
+    context_object_name = 'members'
+
+    def get_queryset(self):
+        team_id = self.kwargs.get('pk')
+        team = get_object_or_404(Team, id=team_id)
+        return team.members.all()
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        team_id = self.kwargs.get('pk')
+        team = get_object_or_404(Team, id=team_id)
+        context['team'] = team
+        return context
+
+
+class MemberDeleteView(View):
+    template_name = 'member_delete.html'
+
+    def get(self, request, team_id, member_id):
+        team = get_object_or_404(Team, id=team_id)
+        member = get_object_or_404(CustomUser, id=member_id)
+        team.members.remove(member)
+        messages.success(request, f"{member} has been removed from {team.name}.")
+
+        return redirect('team-members', pk=team.id)
+
+
+class TeamSessionsView(View):
+    template_name = 'sessions.html'
+
+    def get(self, request, pk):
+        team = get_object_or_404(Team, id=pk)
+        sessions = team.sessions_set.all()
+        return render(request, self.template_name, {'sessions': sessions})
+
+
+
 # Company Views
 class CompanyCreateView(CreateView):
     model = Company
     fields = ['name', 'phone', 'address']
     template_name = 'company_create.html'
-    success_url = reverse_lazy('home:home')
+    success_url = reverse_lazy('company-list')
+
 
 
 class CompanyUpdateView(UpdateView):
