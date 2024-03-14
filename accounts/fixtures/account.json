@@ -1,32 +1,16 @@
-
-{
-    "accounts.customuser": [
-      {
+[
+    {
         "model": "accounts.customuser",
         "pk": 1,
         "fields": {
-          "username": "test_user",
-          "first_name": "Test",
-          "last_name": "User",
-          "email": "test@example.com",
-          "phone": "1234567890",
-          "address": "Test Address",
-          "gender": "M",
-          "age": 25,
-          "description": "Test Description",
-          "profile_image": "profile_images/test_image.jpg"
+            "username": "example_user",
+            "email": "example@example.com",
+            "phone": "123456789",
+            "address": "123 Example St, City",
+            "gender": "MF",
+            "age": 30,
+            "description": "This is an example user.",
+            "profile_image": "path/to/profile_image.jpg"
         }
-      }
-    ],
-    "accounts.otpcode": [
-      {
-        "model": "accounts.otpcode",
-        "pk": 1,
-        "fields": {
-          "email": "test@example.com",
-          "code": "123456"
-        }
-      }
-    ]
-  }
-  
+    }
+]
