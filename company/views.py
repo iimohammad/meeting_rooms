@@ -1,15 +1,13 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from .models import *
+from django.shortcuts import redirect, render, get_object_or_404
 from .forms import *
 from django.contrib.auth.decorators import login_required
-from django.views.generic import UpdateView
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DeleteView, UpdateView, ListView
+from django.views.generic import CreateView, DeleteView, UpdateView, ListView, DetailView, View
 from .models import Team, Company
 from django.utils.decorators import method_decorator
-from django.views.generic import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
-# need to modify permissions and just manager of company can manage teams and company
+from django.http import Http404
+from django.contrib import messages
 
 
 # Team Views
@@ -17,8 +15,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 class TeamCreateView(CreateView):
     model = Team
     fields = ['company', 'name', 'manager', 'members']
-    template_name = 'team_create.html'
-    success_url = reverse_lazy('home:home')
+    template_name = 'create_team.html'
+
+    def get_success_url(self):
+        company_id = self.object.company.id
+        return reverse_lazy('team-list', kwargs={'company_id': company_id})
 
 
 @method_decorator(login_required, name='dispatch')
