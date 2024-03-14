@@ -1,23 +1,18 @@
-from django.shortcuts import render
-from django.shortcuts import redirect
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import get_user_model
 from django.views.generic import CreateView, UpdateView, View
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from accounts.forms import UserCreateForm
+from .forms import UserCreateForm, EditProfileForm
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-from django.http import HttpResponseRedirect
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from .models import CustomUser
-from .forms import EditProfileForm
-from django.contrib.auth.mixins import LoginRequiredMixin
-from notification.utils import *
-user = get_user_model
 
+User = get_user_model()  # Modify import statement
 
 class CustomLoginView(LoginView):
     template_name = 'login.html'
@@ -46,22 +41,18 @@ class SignupView(CreateView):
     success_url = reverse_lazy('login_view')
 
     def form_valid(self, form):
-        """
-        If the form is valid, save the associated model.
-        """
         response = super().form_valid(form)
 
         user = form.instance
-        send_sign_up_notification(user.email)
+        # Assuming this function exists and sends a sign-up notification
+        # send_sign_up_notification(user.email)
+
         return response
 
 
 @login_required
 def profile_view(request):
-    print("--------------------")
-    # print(request.user.username)
     profile = request.user
-    # print(profile.username)
     context = {
         'profile': {
             'User Name': profile.username,
@@ -83,5 +74,3 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
 
     def get_object(self, queryset=None):
         return self.request.user
-
-
