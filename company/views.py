@@ -1,14 +1,10 @@
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from .forms import *
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, UpdateView, ListView, DetailView, View
 from .models import Team, Company
 from django.utils.decorators import method_decorator
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import Http404
-from django.contrib import messages
-
 
 
 # Team Views
@@ -60,7 +56,7 @@ class TeamDetailView(DetailView):
     template_name = 'team_detail.html'
 
 
-class TeamMembersListView(LoginRequiredMixin, ListView):
+""" class TeamMembersListView(LoginRequiredMixin, ListView):
     model = Team
     template_name = 'team_members.html'
     context_object_name = 'members'
@@ -75,10 +71,10 @@ class TeamMembersListView(LoginRequiredMixin, ListView):
         team_id = self.kwargs.get('pk')
         team = get_object_or_404(Team, id=team_id)
         context['team'] = team
-        return context
+        return context """
 
 
-class MemberDeleteView(View):
+""" class MemberDeleteView(View):
     template_name = 'member_delete.html'
 
     def get(self, request, team_id, member_id):
@@ -87,7 +83,7 @@ class MemberDeleteView(View):
         team.members.remove(member)
         messages.success(request, f"{member} has been removed from {team.name}.")
 
-        return redirect('team-members', pk=team.id)
+        return redirect('team-members', pk=team.id) """
 
 
 class TeamSessionsView(View):
@@ -95,9 +91,8 @@ class TeamSessionsView(View):
 
     def get(self, request, pk):
         team = get_object_or_404(Team, id=pk)
-        sessions = team.sessions_set.all()
-        return render(request, self.template_name, {'sessions': sessions})
-
+        sessions = team.sessions.all()
+        return render(request, self.template_name, {'sessions': sessions, 'team': team})
 
 
 # Company Views
@@ -106,7 +101,6 @@ class CompanyCreateView(CreateView):
     fields = ['name', 'phone', 'address']
     template_name = 'company_create.html'
     success_url = reverse_lazy('company-list')
-
 
 
 class CompanyUpdateView(UpdateView):
@@ -126,16 +120,3 @@ class CompanyListView(ListView):
     model = Company
     template_name = 'company_list.html'
     context_object_name = 'companies'
-
-
-class TeamMemberListView(DetailView):
-    model = Team
-    template_name = 'team_member_list.html'
-    context_object_name = 'team'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        team = self.get_object()
-        members = team.members.all()
-        context['members'] = members
-        return context

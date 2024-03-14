@@ -1,4 +1,0 @@
-<form method="post" action="{% url 'delete-team' team.pk %}">
-    {% csrf_token %}
-    <button type="submit" class="delete-btn" onclick="return confirm('Are you sure you want to delete this team?')">Delete Team</button>
-</form>

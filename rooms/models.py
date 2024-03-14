@@ -42,7 +42,7 @@ class MeetingRoom(models.Model):
 
 class Sessions(models.Model):
     name = models.CharField(max_length=30, default="session")
-    team = models.ForeignKey('company.Team', on_delete=models.CASCADE)
+    team = models.ForeignKey('company.Team', on_delete=models.CASCADE, related_name='sessions')
     meeting_room = models.ForeignKey(MeetingRoom, on_delete=models.CASCADE)
     date = models.DateField()
     start_time = models.TimeField()
