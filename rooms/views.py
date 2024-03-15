@@ -26,6 +26,7 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from company.models import *
 from company.utils.decorators import *
+from notification.utils import *
 
 
 # CRUD Meeting Rooms
@@ -95,7 +96,9 @@ class ReserveMeetingRoomView(CreateView):
             reservation.team = self.request.user.teams
             reservation.save()
             messages.success(self.request, 'Meeting room reserved successfully.')
-            return super().form_valid(form)
+            send_add_reservation_room(self.request.user.email, date=reservation.date, start_time=start_time, end_time=reservation.end_time, room_name=reservation.meeting_room.name)
+            response = super().form_valid(form)
+            return response
         else:
             # If no team is managed by the user, display an error message
             messages.error(self.request, 'You are not managing any team.')
