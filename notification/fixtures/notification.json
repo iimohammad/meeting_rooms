@@ -1,0 +1,26 @@
+[
+    {
+        "model": "yourapp.EmailMessage",
+        "pk": 1,
+        "fields": {
+            "subject": "Your Subject 1",
+            "message": "Your Message 1"
+        }
+    },
+    {
+        "model": "yourapp.EmailMessage",
+        "pk": 2,
+        "fields": {
+            "subject": "Your Subject 2",
+            "message": "Your Message 2"
+        }
+    },
+    {
+        "model": "yourapp.EmailMessage",
+        "pk": 3,
+        "fields": {
+            "subject": "Your Subject 3",
+            "message": "Your Message 3"
+        }
+    }
+]
