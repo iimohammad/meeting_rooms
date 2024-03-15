@@ -132,7 +132,7 @@ class Reservation_Show(ListView):
 
 
 @method_decorator(login_required, name='dispatch')
-@manager_required
+@method_decorator(manager_required, name='dispatch')
 class Reservation_Cancel(DeleteView):
     model = Sessions
     success_url = reverse_lazy('show_reservations')
@@ -142,6 +142,7 @@ class Reservation_Cancel(DeleteView):
 # Handling Comments and Scores about rooms and sessions
 
 @method_decorator(login_required, name='dispatch')
+@method_decorator(manager_required, name='dispatch')
 class MeetingRoomRatingCreate(CreateView):
     model = MeetingRoomRating
     fields = ['meeting_room', 'score', 'comment']
