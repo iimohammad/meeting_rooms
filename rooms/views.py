@@ -75,7 +75,7 @@ class MeetingRoomListView(ListView):
 
 # Reserve A Meeting Room for a Session
 @method_decorator(login_required, name='dispatch')
-@manager_required
+@method_decorator(manager_required, name='dispatch')
 class ReserveMeetingRoomView(CreateView):
     model = Sessions
     form_class = ReserveMeetingRoomForm
@@ -132,7 +132,7 @@ class Reservation_Show(ListView):
 
 
 @method_decorator(login_required, name='dispatch')
-@manager_required
+@method_decorator(manager_required, name='dispatch')
 class Reservation_Cancel(DeleteView):
     model = Sessions
     success_url = reverse_lazy('show_reservations')
