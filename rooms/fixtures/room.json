@@ -1,1 +1,13 @@
-
+[
+    {
+        "model": "rooms.MeetingRoom",
+        "pk": 1,
+        "fields": {
+            "room_name": "Room 1",
+            "capacity": 10,
+            "location": "Building A",
+            "available": true,
+            "company": 1
+        }
+    }
+]

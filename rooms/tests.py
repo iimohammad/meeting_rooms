@@ -1,65 +1,63 @@
-from django.test import TestCase
-from django.contrib.auth.models import User
+from django.test import TestCase, Client
 from django.urls import reverse
-from django.contrib import messages
-from django.shortcuts import render, get_object_or_404
-from .models import Post, Author
-from .foarm import CreatePostForm  # اضافه کردن فرم مربوطه
+from django.contrib.auth import get_user_model
+from .models import MeetingRoom, Sessions, MeetingRoomRating, SessionRating
 
-def post_update(request, post_id):
-    # View function for updating a post.
-    # If the request method is GET, display the post update form.
-    # If the request method is POST, validate the form and update the post if the form is valid.
-
-    post = get_object_or_404(Post, id=post_id)
-    if request.method == 'GET':
-        form = CreatePostForm(instance=post)
-        return render(request, 'post/create_post.html', {'form': form})
-    if request.method == 'POST':
-        form = CreatePostForm(request.POST, instance=post)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Post updated successfully', 'success')
-            return render('home:home')
-        messages.error(request, 'There was an error in form validation.')
-        return render(request, 'post/create_post.html', {'form': form})
-
-class PostViewTests(TestCase):
+class TestViews(TestCase):
     def setUp(self):
-        self.user = User.objects.create(username='testuser', password='testpassword')
-        self.author = Author.objects.create(user=self.user, phone_number='09123456789', country='test')
+        self.client = Client()
+        User = get_user_model()
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        self.client.login(username='testuser', password='testpassword')
 
-    def test_post_update_view_POST_valid_form(self):
-        post = Post.objects.create(body='Original post body', author=self.user)
-
-        data = {'body': 'Updated post body'}
-        self.client.force_login(self.user)
-
-        response = self.client.post(reverse('post:post_update', args=[post.id]), data)
-        self.assertEqual(response.status_code, 302)  # 302 is the status code for redirect
-        self.assertRedirects(response, reverse('home:home'))
-        post.refresh_from_db()
-        self.assertEqual(post.body, 'Updated post body')
-
-    def test_post_update_view_GET(self):
-        post = Post.objects.create(body='Original post body', author=self.user)
-
-        self.client.force_login(self.user)
-
-        response = self.client.get(reverse('post:post_update', args=[post.id]))
+    def test_meeting_room_list_view(self):
+        response = self.client.get(reverse('meeting-room-list'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'post/create_post.html')
-        self.assertContains(response, 'Original post body')
+        self.assertTemplateUsed(response, 'meeting_room_list.html')
 
-    def test_post_update_view_POST_invalid_form(self):
-        post = Post.objects.create(body='Original post body', author=self.user)
-
-        invalid_data = {'body': ''}
-        self.client.force_login(self.user)
-
-        response = self.client.post(reverse('post:post_update', args=[post.id]), invalid_data)
+    def test_meeting_room_detail_view(self):
+        meeting_room = MeetingRoom.objects.create(room_name='Test Room', capacity=10, location='Test Location', available=True)
+        response = self.client.get(reverse('meeting-room-detail', args=[meeting_room.pk]))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'This field is required.')
+        self.assertTemplateUsed(response, 'detail_view_room.html')
 
-        post.refresh_from_db()
-        self.assertEqual(post.body, 'Original post body')
+    def test_reserve_meeting_room_view(self):
+        response = self.client.get(reverse('reserve-meeting-room'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'reserve_meeting_room.html')
+
+    def test_reservation_show_view(self):
+        response = self.client.get(reverse('show-reservations'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'session_list.html')
+
+    def test_reservation_cancel_view(self):
+        meeting_room = MeetingRoom.objects.create(room_name='Test Room', capacity=10, location='Test Location', available=True)
+        session = Sessions.objects.create(name='Test Session', meeting_room=meeting_room, date='2024-03-15', start_time='09:00:00', end_time='10:00:00')
+        response = self.client.get(reverse('cancel-reservation', args=[session.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'session_confirm_delete.html')
+
+    def test_meeting_room_rating_create_view(self):
+        meeting_room = MeetingRoom.objects.create(room_name='Test Room', capacity=10, location='Test Location', available=True)
+        response = self.client.post(reverse('meeting-room-rating-create', args=[meeting_room.pk]), {'score': 4, 'comment': 'Test Comment'})
+        self.assertEqual(response.status_code, 302)  # Redirects upon success
+
+    def test_session_rating_create_view(self):
+        meeting_room = MeetingRoom.objects.create(room_name='Test Room', capacity=10, location='Test Location', available=True)
+        session = Sessions.objects.create(name='Test Session', meeting_room=meeting_room, date='2024-03-15', start_time='09:00:00', end_time='10:00:00')
+        response = self.client.post(reverse('session-rating-create', args=[session.pk]), {'score': 4, 'comment': 'Test Comment'})
+        self.assertEqual(response.status_code, 302)  # Redirects upon success
+
+    def test_meeting_room_rating_update_view(self):
+        meeting_room = MeetingRoom.objects.create(room_name='Test Room', capacity=10, location='Test Location', available=True)
+        rating = MeetingRoomRating.objects.create(user=self.user, meeting_room=meeting_room, score=3)
+        response = self.client.post(reverse('meeting-room-rating-update', args=[rating.pk]), {'score': 5, 'comment': 'Updated Comment'})
+        self.assertEqual(response.status_code, 302)  # Redirects upon success
+
+    def test_session_rating_update_view(self):
+        meeting_room = MeetingRoom.objects.create(room_name='Test Room', capacity=10, location='Test Location', available=True)
+        session = Sessions.objects.create(name='Test Session', meeting_room=meeting_room, date='2024-03-15', start_time='09:00:00', end_time='10:00:00')
+        rating = SessionRating.objects.create(user=self.user, session=session, score=3)
+        response = self.client.post(reverse('session-rating-update', args=[rating.pk]), {'score': 5, 'comment': 'Updated Comment'})
+        self.assertEqual(response.status_code, 302)  # Redirects upon success
