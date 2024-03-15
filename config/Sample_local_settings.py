@@ -10,3 +10,5 @@ Email_Configuration = {
     'EMAIL_HOST_PASSWORD': 'your-password',
     'EMAIL_USE_TLS': True
 }
+
+Admin = 'admin/'
