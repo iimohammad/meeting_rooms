@@ -6,6 +6,18 @@
       "name": "Example Company"
     }
   },
+
+  {
+    "model": "rooms.meetingroom",
+    "pk": 2,
+    "fields": {
+      "room_name": "Meeting Room 1",
+      "capacity": 8,
+      "location": "Location A",
+      "available": true,
+      "company": 1
+    }
+  },
   {
     "model": "rooms.meetingroom",
     "pk": 2,
@@ -18,11 +30,92 @@
     }
   },
   {
+    "model": "rooms.meetingroom",
+    "pk": 2,
+    "fields": {
+      "room_name": "Meeting Room 3",
+      "capacity": 8,
+      "location": "Location A",
+      "available": true,
+      "company": 1
+    }
+  },
+  {
+    "model": "rooms.meetingroom",
+    "pk": 2,
+    "fields": {
+      "room_name": "Meeting Room 4",
+      "capacity": 8,
+      "location": "Location B",
+      "available": true,
+      "company": 1
+    }
+  },
+  {
+    "model": "rooms.meetingroom",
+    "pk": 2,
+    "fields": {
+      "room_name": "Meeting Room 5",
+      "capacity": 8,
+      "location": "Location A",
+      "available": true,
+      "company": 1
+    }
+  },
+  {
     "model": "rooms.team", 
     "pk": 1,
     "fields": {
       "name": "Team 1",
       "company": 1
+    }
+  },
+
+  {
+    "model": "rooms.team", 
+    "pk": 1,
+    "fields": {
+      "name": "Team 2",
+      "company": 1
+    }
+  },
+
+  {
+    "model": "rooms.team", 
+    "pk": 1,
+    "fields": {
+      "name": "Team 3",
+      "company": 1
+    }
+  },
+
+  {
+    "model": "rooms.team", 
+    "pk": 1,
+    "fields": {
+      "name": "Team 4",
+      "company": 1
+    }
+  },
+
+  {
+    "model": "rooms.team", 
+    "pk": 1,
+    "fields": {
+      "name": "Team 5",
+      "company": 1
+    }
+  },
+  {
+    "model": "rooms.sessions",
+    "pk": 2,
+    "fields": {
+      "name": "Session 1",
+      "team": 1,
+      "meeting_room": 2,
+      "date": "2024-03-16",
+      "start_time": "10:00:00",
+      "end_time": "11:00:00"
     }
   },
   {
@@ -36,5 +129,43 @@
       "start_time": "10:00:00",
       "end_time": "11:00:00"
     }
+  },
+  {
+    "model": "rooms.sessions",
+    "pk": 3,
+    "fields": {
+      "name": "Session 3",
+      "team": 1,
+      "meeting_room": 2,
+      "date": "2024-03-17",
+      "start_time": "09:00:00",
+      "end_time": "10:00:00"
+    }
+  },
+  
+  {
+    "model": "rooms.sessions",
+    "pk": 3,
+    "fields": {
+      "name": "Session 4",
+      "team": 1,
+      "meeting_room": 2,
+      "date": "2024-03-17",
+      "start_time": "09:00:00",
+      "end_time": "10:00:00"
+    }
+  },
+  {
+    "model": "rooms.sessions",
+    "pk": 3,
+    "fields": {
+      "name": "Session 5",
+      "team": 1,
+      "meeting_room": 2,
+      "date": "2024-03-17",
+      "start_time": "09:00:00",
+      "end_time": "10:00:00"
+    }
   }
 ]
+
