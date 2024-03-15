@@ -8,7 +8,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
 from django.contrib import messages
-from utils.decorators import *
+from company.utils.decorators import *
 
 
 # Team Views

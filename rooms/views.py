@@ -135,11 +135,7 @@ class Reservation_Show(ListView):
 
 
 @method_decorator(login_required, name='dispatch')
-<<<<<<< HEAD
-@manager_required(manager_required, name='dispatch')
-=======
 @method_decorator(manager_required, name='dispatch')
->>>>>>> dd26b1146602fe42d79dd125379a053ca985edbb
 class Reservation_Cancel(DeleteView):
     model = Sessions
     success_url = reverse_lazy('show_reservations')
