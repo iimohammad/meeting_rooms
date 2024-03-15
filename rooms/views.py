@@ -25,6 +25,7 @@ from .foarm import ReserveMeetingRoomForm, MeetingRoomRatingForm
 from django.contrib import messages
 from django.shortcuts import redirect
 from company.models import *
+from company.utils.decorators import *
 
 
 # CRUD Meeting Rooms
@@ -74,6 +75,7 @@ class MeetingRoomListView(ListView):
 
 # Reserve A Meeting Room for a Session
 @method_decorator(login_required, name='dispatch')
+@manager_required
 class ReserveMeetingRoomView(CreateView):
     model = Sessions
     form_class = ReserveMeetingRoomForm
@@ -84,10 +86,10 @@ class ReserveMeetingRoomView(CreateView):
         reservation = form.save(commit=False)
 
         # Fetch the team managed by the current user (manager)
-        manager_team = Team.objects.filter(manager=self.request.user).first()
+        # manager_team = Team.objects.filter(manager=self.request.user).first()
 
-        if manager_team:
-            reservation.team = manager_team
+        if self.request.user.teams:
+            reservation.team = self.request.user.teams
             reservation.save()
             messages.success(self.request, 'Meeting room reserved successfully.')
             return super().form_valid(form)
@@ -130,6 +132,7 @@ class Reservation_Show(ListView):
 
 
 @method_decorator(login_required, name='dispatch')
+@manager_required
 class Reservation_Cancel(DeleteView):
     model = Sessions
     success_url = reverse_lazy('show_reservations')
