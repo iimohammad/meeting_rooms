@@ -14,7 +14,7 @@ import os
 from pathlib import Path
 
 from . import Sample_local_settings
-from . import local_settings
+# from . import local_settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,9 +29,9 @@ SECRET_KEY = Sample_local_settings.Secret_key['secret_key']
 
 STATIC_URL = '/static/'
 
-DEBUG = local_settings.DEBUG
+DEBUG = Sample_local_settings.DEBUG
 
-ALLOWED_HOSTS = local_settings.ALLOWED_HOSTS
+ALLOWED_HOSTS = Sample_local_settings.ALLOWED_HOSTS
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -144,11 +144,11 @@ MEDIA_URL = '/profile_images/'
 
 # Email Configurations
 
-EMAIL_BACKEND = local_settings.Email_Configuration['EMAIL_BACKEND']
-EMAIL_HOST = local_settings.Email_Configuration['EMAIL_HOST']
-EMAIL_PORT = local_settings.Email_Configuration['EMAIL_PORT']
-EMAIL_HOST_USER = local_settings.Email_Configuration['EMAIL_HOST_USER']
-EMAIL_HOST_PASSWORD = local_settings.Email_Configuration['EMAIL_HOST_PASSWORD']
-EMAIL_USE_TLS = local_settings.Email_Configuration['EMAIL_USE_TLS']
+EMAIL_BACKEND = Sample_local_settings.Email_Configuration['EMAIL_BACKEND']
+EMAIL_HOST = Sample_local_settings.Email_Configuration['EMAIL_HOST']
+EMAIL_PORT = Sample_local_settings.Email_Configuration['EMAIL_PORT']
+EMAIL_HOST_USER = Sample_local_settings.Email_Configuration['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = Sample_local_settings.Email_Configuration['EMAIL_HOST_PASSWORD']
+EMAIL_USE_TLS = Sample_local_settings.Email_Configuration['EMAIL_USE_TLS']
 
 AUTH_USER_MODEL = 'accounts.CustomUser'

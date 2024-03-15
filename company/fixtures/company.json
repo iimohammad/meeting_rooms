@@ -1,1 +1,245 @@
-
+[
+    {
+        "model": "accounts.CustomUser",
+        "pk": 2,
+        "fields": {
+            "username": "user2",
+            "first_name": "Michael",
+            "last_name": "Davis",
+            "email": "user2@example.com",
+            "phone": "09554275366",
+            "address": "86 Oak St, City",
+            "gender": "F",
+            "age": 56,
+            "password":"pbkdf2_sha256$720000$Gt4dxGAqqJ3FMFFiU2si4E$BqePS1jPiUhl9pgIgwMSyj2sLJ1Vyuejln/ECrw+nVQ=",
+            "description": "Description for Michael Davis",
+            "profile_image": "profile_images/user2.jpg"
+        }
+    },
+    {
+        "model": "accounts.CustomUser",
+        "pk": 3,
+        "fields": {
+            "username": "user3",
+            "first_name": "John",
+            "last_name": "Doe",
+            "email": "user3@example.com",
+            "phone": "09474797782",
+            "address": "59 Elm St, Town",
+            "gender": "F",
+            "age": 50,
+            "password":"pbkdf2_sha256$720000$Gt4dxGAqqJ3FMFFiU2si4E$BqePS1jPiUhl9pgIgwMSyj2sLJ1Vyuejln/ECrw+nVQ=",
+            "description": "Description for John Doe",
+            "profile_image": "profile_images/user3.jpg"
+        }
+    },
+    {
+        "model": "accounts.CustomUser",
+        "pk": 4,
+        "fields": {
+            "username": "user4",
+            "first_name": "John",
+            "last_name": "Brown",
+            "email": "user4@example.com",
+            "phone": "09838861459",
+            "address": "345 Oak St, Village",
+            "gender": "F",
+            "age": 43,
+            "password":"pbkdf2_sha256$720000$Gt4dxGAqqJ3FMFFiU2si4E$BqePS1jPiUhl9pgIgwMSyj2sLJ1Vyuejln/ECrw+nVQ=",
+            "description": "Description for John Brown",
+            "profile_image": "profile_images/user4.jpg"
+        }
+    },
+    {
+        "model": "accounts.CustomUser",
+        "pk": 5,
+        "fields": {
+            "username": "user5",
+            "first_name": "John",
+            "last_name": "Johnson",
+            "email": "user5@example.com",
+            "phone": "09732183202",
+            "address": "905 Elm St, Village",
+            "gender": "F",
+            "age": 24,
+            "password":"pbkdf2_sha256$720000$Gt4dxGAqqJ3FMFFiU2si4E$BqePS1jPiUhl9pgIgwMSyj2sLJ1Vyuejln/ECrw+nVQ=",
+            "description": "Description for John Johnson",
+            "profile_image": "profile_images/user5.jpg"
+        }
+    },
+    {
+        "model": "accounts.CustomUser",
+        "pk": 6,
+        "fields": {
+            "username": "user6",
+            "first_name": "John",
+            "last_name": "Smith",
+            "email": "user6@example.com",
+            "phone": "09652068965",
+            "address": "277 Oak St, Town",
+            "gender": "F",
+            "age": 72,
+            "password":"pbkdf2_sha256$720000$Gt4dxGAqqJ3FMFFiU2si4E$BqePS1jPiUhl9pgIgwMSyj2sLJ1Vyuejln/ECrw+nVQ=",
+            "description": "Description for John Smith",
+            "profile_image": "profile_images/user6.jpg"
+        }
+    },
+    {
+        "model": "company.Company",
+        "pk": 1,
+        "fields": {
+            "name": "Apple",
+            "phone": "123-456-7890",
+            "address": "123 Main St, Cityville"
+        }
+    },
+    {
+        "model": "company.Company",
+        "pk": 2,
+        "fields": {
+            "name": "Google",
+            "phone": "987-654-3210",
+            "address": "456 Elm Ave, Townsville"
+        }
+    },
+    {
+        "model": "company.Team",
+        "pk": 1,
+        "fields": {
+            "company": 1,
+            "name": "Development Team",
+            "manager": 4,
+            "permission": true,
+            "priority": 3,
+            "members": [1, 2]
+        }
+    },
+    {
+        "model": "company.Team",
+        "pk": 2,
+        "fields": {
+            "company": 2,
+            "name": "Marketing Team",
+            "manager": 2,
+            "permission": false,
+            "priority": 4,
+            "members": [3, 4]
+        }
+    },
+    {
+        "model": "company.Team",
+        "pk": 3,
+        "fields": {
+            "company": 1,
+            "name": "Sales Team",
+            "manager": 1,
+            "permission": true,
+            "priority": 2,
+            "members": [5, 6]
+        }
+    },
+    {
+        "model": "rooms.MeetingRoom",
+        "pk": 1,
+        "fields": {
+            "room_name": "Conference Room 101",
+            "capacity": 20,
+            "location": "Floor 5, Building A",
+            "available": true,
+            "company": 1
+        }
+    },
+    {
+        "model": "rooms.MeetingRoom",
+        "pk": 2,
+        "fields": {
+            "room_name": "Boardroom 202",
+            "capacity": 12,
+            "location": "Floor 3, Building B",
+            "available": true,
+            "company": 1
+        }
+    },
+    {
+        "model": "rooms.MeetingRoom",
+        "pk": 3,
+        "fields": {
+            "room_name": "Seminar Hall X",
+            "capacity": 50,
+            "location": "Ground Floor, Auditorium",
+            "available": false,
+            "company": 2
+        }
+    },
+    {
+        "model": "rooms.MeetingRoom",
+        "pk": 4,
+        "fields": {
+            "room_name": "Training Room Y",
+            "capacity": 30,
+            "location": "Floor 2, Building C",
+            "available": true,
+            "company": 1
+        }
+    },
+    {
+        "model": "rooms.Sessions",
+        "pk": 1,
+        "fields": {
+            "name": "Team Meeting",
+            "team": 1,
+            "meeting_room": 1,
+            "date": "2024-03-12",
+            "start_time": "09:00:00",
+            "end_time": "10:30:00"
+        }
+    },
+    {
+        "model": "rooms.Sessions",
+        "pk": 2,
+        "fields": {
+            "name": "Project Planning",
+            "team": 2,
+            "meeting_room": 2,
+            "date": "2024-03-14",
+            "start_time": "14:00:00",
+            "end_time": "16:00:00"
+        }
+    },
+    {
+        "model": "rooms.Sessions",
+        "pk": 3,
+        "fields": {
+            "name": "Training Workshop",
+            "team": 3,
+            "meeting_room": 3,
+            "date": "2024-03-18",
+            "start_time": "11:30:00",
+            "end_time": "13:00:00"
+        }
+    },
+    {
+        "model": "rooms.Sessions",
+        "pk": 4,
+        "fields": {
+            "name": "Product Demo",
+            "team": 2,
+            "meeting_room": 4,
+            "date": "2024-03-23",
+            "start_time": "15:30:00",
+            "end_time": "17:00:00"
+        }
+    },
+    {
+        "model": "rooms.Sessions",
+        "pk": 5,
+        "fields": {
+            "name": "Brainstorming Session",
+            "team": 1,
+            "meeting_room": 1,
+            "date": "2024-03-24",
+            "start_time": "10:00:00",
+            "end_time": "11:30:00"
+        }
+    }
+]
