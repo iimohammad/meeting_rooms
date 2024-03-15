@@ -25,6 +25,7 @@ from .foarm import ReserveMeetingRoomForm, MeetingRoomRatingForm
 from django.contrib import messages
 from django.shortcuts import redirect
 from company.models import *
+from company.utils.decorators import *
 
 
 # CRUD Meeting Rooms
@@ -74,6 +75,7 @@ class MeetingRoomListView(ListView):
 
 # Reserve A Meeting Room for a Session
 @method_decorator(login_required, name='dispatch')
+@manager_required
 class ReserveMeetingRoomView(CreateView):
     model = Sessions
     form_class = ReserveMeetingRoomForm
