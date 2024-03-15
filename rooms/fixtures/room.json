@@ -1,145 +1,40 @@
 [
-    {
-      "model": "rooms.company",
-      "pk": 1,
-      "fields": {
-        "name": "Example Company"
-      }
-    },
-    {
-      "model": "rooms.meetingroom",
-      "pk": 2,
-      "fields": {
-        "room_name": "Meeting Room 2",
-        "capacity": 8,
-        "location": "Location B",
-        "available": true,
-        "company": 1
-      }
-    },
-    {
-      "model": "rooms.meetingroom",
-      "pk": 3,
-      "fields": {
-        "room_name": "Conference Hall",
-        "capacity": 50,
-        "location": "Location C",
-        "available": true,
-        "company": 1
-      }
-    },
-    {
-      "model": "rooms.Sessions",
-      "pk": 2,
-      "fields": {
-        "name": "Session 2",
-        "team": 1,
-        "meeting_room": 2,
-        "date": "2024-03-16",
-        "start_time": "10:00:00",
-        "end_time": "11:00:00"
-      }
-    },
-    {
-      "model": "rooms.Sessions",
-      "pk": 3,
-      "fields": {
-        "name": "Session 3",
-        "team": 2,
-        "meeting_room": 3,
-        "date": "2024-03-17",
-        "start_time": "14:00:00",
-        "end_time": "16:00:00"
-      }
-    },
-    {
-      "model": "rooms.meetingroomrating",
-      "pk": 2,
-      "fields": {
-        "user": 2,
-        "meeting_room": 2,
-        "score": 5,
-        "comment": "Excellent facilities",
-        "created_at": "2024-03-16T12:00:00Z"
-      }
-    },
-    {
-      "model": "rooms.meetingroomrating",
-      "pk": 3,
-      "fields": {
-        "user": 1,
-        "meeting_room": 3,
-        "score": 4,
-        "comment": "Spacious and comfortable",
-        "created_at": "2024-03-17T10:00:00Z"
-      }
-    },
-    {
-      "model": "rooms.sessionrating",
-      "pk": 2,
-      "fields": {
-        "user": 2,
-        "session": 2,
-        "score": 4,
-        "comment": "Good presentation",
-        "created_at": "2024-03-16T12:00:00Z"
-      }
-    },
-    {
-      "model": "rooms.sessionrating",
-      "pk": 3,
-      "fields": {
-        "user": 1,
-        "session": 3,
-        "score": 5,
-        "comment": "Very informative",
-        "created_at": "2024-03-17T16:00:00Z"
-      }
-    },
-    {
-      "model": "rooms.meetingroom",
-      "pk": 4,
-      "fields": {
-        "room_name": "Boardroom",
-        "capacity": 12,
-        "location": "Location D",
-        "available": true,
-        "company": 1
-      }
-    },
-    {
-      "model": "rooms.sessions",
-      "pk": 4,
-      "fields": {
-        "name": "Session 4",
-        "team": 2,
-        "meeting_room": 4,
-        "date": "2024-03-18",
-        "start_time": "09:00:00",
-        "end_time": "12:00:00"
-      }
-    },
-    {
-      "model": "rooms.meetingroomrating",
-      "pk": 4,
-      "fields": {
-        "user": 1,
-        "meeting_room": 4,
-        "score": 5,
-        "comment": "Excellent facilities and services",
-        "created_at": "2024-03-18T12:00:00Z"
-      }
-    },
-    {
-      "model": "rooms.sessionrating",
-      "pk": 4,
-      "fields": {
-        "user": 2,
-        "session": 4,
-        "score": 4,
-        "comment": "Well-organized session",
-        "created_at": "2024-03-18T12:00:00Z"
-      }
+  {
+    "model": "rooms.company",
+    "pk": 1,
+    "fields": {
+      "name": "Example Company"
     }
-  ]
-  
+  },
+  {
+    "model": "rooms.meetingroom",
+    "pk": 2,
+    "fields": {
+      "room_name": "Meeting Room 2",
+      "capacity": 8,
+      "location": "Location B",
+      "available": true,
+      "company": 1
+    }
+  },
+  {
+    "model": "rooms.team", 
+    "pk": 1,
+    "fields": {
+      "name": "Team 1",
+      "company": 1
+    }
+  },
+  {
+    "model": "rooms.sessions",
+    "pk": 2,
+    "fields": {
+      "name": "Session 2",
+      "team": 1,
+      "meeting_room": 2,
+      "date": "2024-03-16",
+      "start_time": "10:00:00",
+      "end_time": "11:00:00"
+    }
+  }
+]
