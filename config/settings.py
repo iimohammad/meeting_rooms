@@ -29,9 +29,9 @@ SECRET_KEY = Sample_local_settings.Secret_key['secret_key']
 
 STATIC_URL = '/static/'
 
-DEBUG = True
+DEBUG = local_settings.DEBUG
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = local_settings.ALLOWED_HOSTS
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -40,7 +40,6 @@ INTERNAL_IPS = [
 # Application definition
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
-    # os.path.join(BASE_DIR, 'accounts/static'),
 ]
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -49,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # My Apps
     'company',
     'rooms',
     'accounts',

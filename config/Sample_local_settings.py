@@ -12,3 +12,7 @@ Email_Configuration = {
 }
 
 Admin = 'admin/'
+
+DEBUG = True
+
+ALLOWED_HOSTS = []
