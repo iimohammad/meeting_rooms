@@ -84,10 +84,10 @@ class ReserveMeetingRoomView(CreateView):
         reservation = form.save(commit=False)
 
         # Fetch the team managed by the current user (manager)
-        manager_team = Team.objects.filter(manager=self.request.user).first()
+        # manager_team = Team.objects.filter(manager=self.request.user).first()
 
-        if manager_team:
-            reservation.team = manager_team
+        if self.request.user.teams:
+            reservation.team = self.request.user.teams
             reservation.save()
             messages.success(self.request, 'Meeting room reserved successfully.')
             return super().form_valid(form)
