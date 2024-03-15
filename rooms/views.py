@@ -30,6 +30,7 @@ from company.utils.decorators import *
 
 # CRUD Meeting Rooms
 @method_decorator(login_required, name='dispatch')
+@method_decorator(manager_required, name='dispatch')
 class MeetingRoomCreateView(CreateView):
     model = MeetingRoom
     fields = ['room_name', 'capacity', 'location', 'available', 'company']
@@ -52,6 +53,7 @@ class MeetingRoomDetailView(DetailView):
 
 
 @method_decorator(login_required, name='dispatch')
+@method_decorator(manager_required, name='dispatch')
 class MeetingRoomUpdateView(UpdateView):
     model = MeetingRoom
     fields = ['room_name', 'capacity', 'location', 'available', 'company']
@@ -60,6 +62,7 @@ class MeetingRoomUpdateView(UpdateView):
 
 
 @method_decorator(login_required, name='dispatch')
+@method_decorator(check_company_manager, name='dispatch')
 class MeetingRoomDeleteView(DeleteView):
     model = MeetingRoom
     success_url = reverse_lazy('meeting-room-list')
@@ -75,7 +78,7 @@ class MeetingRoomListView(ListView):
 
 # Reserve A Meeting Room for a Session
 @method_decorator(login_required, name='dispatch')
-@manager_required
+@method_decorator(manager_required, name='dispatch')
 class ReserveMeetingRoomView(CreateView):
     model = Sessions
     form_class = ReserveMeetingRoomForm
@@ -132,7 +135,7 @@ class Reservation_Show(ListView):
 
 
 @method_decorator(login_required, name='dispatch')
-@manager_required
+@manager_required(manager_required, name='dispatch')
 class Reservation_Cancel(DeleteView):
     model = Sessions
     success_url = reverse_lazy('show_reservations')

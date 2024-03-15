@@ -9,7 +9,7 @@ class UserCreateForm(UserCreationForm):
     class Meta:
         model = CustomUser
         fields = ('username', 'email', 'first_name', 'last_name',
-                  'password1', 'password2', 'phone', 'profile_image')
+                  'password1', 'password2', 'CompanyManager', 'phone', 'profile_image')
 
 
 class EditProfileForm(forms.ModelForm):
