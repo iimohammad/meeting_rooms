@@ -2,10 +2,15 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.conf import settings
 from django.utils import timezone
+import pytz
+
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import gettext_lazy as _
 
+
+
 user = get_user_model()
+utc = pytz.UTC
 
 class Team(models.Model):
     name = models.CharField(max_length=100)
@@ -40,6 +45,9 @@ class MeetingRoom(models.Model):
             end_time__gt=start_time
         )
         return not overlapping_sessions.exists()
+    
+    def __str__(self):
+        return self.room_name
 
     def __str__(self):
         return self.room_name
@@ -57,7 +65,12 @@ class Sessions(models.Model):
         ordering = ['date', 'start_time']
 
     def is_past(self):
-        return timezone.now() > timezone.datetime.combine(self.date, self.end_time)
+        return timezone.now() > timezone.datetime.combine(self.date, self.end_time).replace(tzinfo=utc)
+
+    def is_in_progress(self):
+        past_start_time = timezone.now() > timezone.datetime.combine(self.date, self.start_time).replace(tzinfo=utc)
+        before_end_time = timezone.now() < timezone.datetime.combine(self.date, self.end_time).replace(tzinfo=utc)
+        return past_start_time and before_end_time
 
     def __str__(self):
         return f"{self.date} {self.start_time} - {self.end_time} ({self.meeting_room} - {self.team})"

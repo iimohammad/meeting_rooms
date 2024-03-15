@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Team's sessions</title>
+    </head>
+    <br>
+    <body>
+            <h1>{{sessions.0.team.name}} Team's sessions</h1>
+        <ul>
+            {% for session in sessions %}
+                {% if session.is_in_progress %}
+                    <li>
+                        <h4>The session {{session.id}} in-progress:</h4>
+                        <p>- is taking place in the {{session.meeting_room.room_name}} room.</p>
+                        <p>- has started at {{session.date}} {{session.start_time}}</p>
+                        <p>- is going to end at {{session.date}} {{session.end_time}}</p>
+                    </li>
+                {% elif session.is_past %}
+                    <li>
+                        <h4>The past session {{session.id}}:</h4>
+                        <p>- has taken place in the {{session.meeting_room.room_name}} room.</p>
+                        <p>- has started at {{session.date}} {{session.start_time}}</p>
+                        <p>- has ended at {{session.date}} {{session.end_time}}</p>
+                    </li>
+                {% else %}
+                    <li>
+                        <h4>The pending session {{session.id}}:</h4>
+                        <p>- will take place in the {{session.meeting_room.room_name}} room.</p>
+                        <p>- will start at {{session.date}} {{session.start_time}}</p>
+                        <p>- will end at {{session.date}} {{session.end_time}}</p>
+                    </li>
+                {% endif %}
+            {% empty %}
+                <li>There are no sessions registered for this team yet!</li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>

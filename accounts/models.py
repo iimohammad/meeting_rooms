@@ -15,6 +15,9 @@ class CustomUser(AbstractUser):
     age = models.PositiveSmallIntegerField(blank=True, null=True)
     description = models.TextField(blank=True)
     profile_image = models.ImageField(upload_to='profile_images/')
+    
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
 
 
 class OTPCode(models.Model):

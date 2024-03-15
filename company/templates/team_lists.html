@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Team List</title>
+<<<<<<< HEAD
+=======
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -61,17 +63,28 @@
             background-color: #ff4d4d;
         }
     </style>
+>>>>>>> main
 </head>
 <body>
     <h1>Team List</h1>
     <ul>
         {% for team in teams %}
             <li>
+<<<<<<< HEAD
+                <p><a href="{% url 'team-detail' team.pk %}"><strong>{{team.name}} Team</strong></a></p>
+                <p>Managed by {{team.manager.first_name}} {{team.manager.last_name}}</p>
+                <p>(
+                    <a href="{% url 'team-members' team.pk %}">See the members</a><a> - </a>
+                    <a href="{% url 'delete-team' team.pk %}">Delete team</a><a> - </a>
+                    <a href="{% url 'team-sessions' team.pk %}">Team's reservations</a>
+                )</p>
+=======
                 <a href="{% url 'team-detail' team.pk %}">{{ team.name }}</a>
                 <form method="post" action="{% url 'delete-team' team.pk %}">
                     {% csrf_token %}
                     <button type="submit" class="delete-btn" onclick="return confirm('Are you sure you want to delete this team?')">Delete Team</button>
                 </form>
+>>>>>>> main
             </li>
         {% empty %}
             <li>No teams found.</li>
