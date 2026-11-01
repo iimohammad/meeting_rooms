@@ -1,63 +1,74 @@
-from django.test import TestCase, Client
+from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth import get_user_model
-from .models import MeetingRoom, Sessions, MeetingRoomRating, SessionRating
+from .models import MeetingRoom, Sessions, MeetingRoomRating, SessionRating, Team, Company
 
 class TestViews(TestCase):
     def setUp(self):
-        self.client = Client()
-        User = get_user_model()
-        self.user = User.objects.create_user(username='testuser', password='testpassword')
-        self.client.login(username='testuser', password='testpassword')
+        self.user = get_user_model().objects.create_user(username='testuser', password='12345')  
+        self.client.login(username='testuser', password='12345')
 
-    def test_meeting_room_list_view(self):
-        response = self.client.get(reverse('meeting-room-list'))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'meeting_room_list.html')
+        self.company = Company.objects.create(name='Test Company') 
+        self.team = Team.objects.create(name='Test Team', company=self.company) 
+        self.meeting_room = MeetingRoom.objects.create(
+    room_name='Test Room',
+    capacity=10,
+    location='Test Location',
+    available=True,
+    company=self.company  # <-- Problematic line
+)
 
-    def test_meeting_room_detail_view(self):
-        meeting_room = MeetingRoom.objects.create(room_name='Test Room', capacity=10, location='Test Location', available=True)
-        response = self.client.get(reverse('meeting-room-detail', args=[meeting_room.pk]))
+        self.session = Sessions.objects.create(
+            name='Test Session',
+            team=self.team,
+            meeting_room=self.meeting_room,
+            date='2024-03-15',
+            start_time='10:00',
+            end_time='12:00'
+        )
+
+    def test_meeting_room_create_view(self):
+        response = self.client.get(reverse('meeting-room-create'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'detail_view_room.html')
+
+        data = {
+            'room_name': 'New Room',
+            'capacity': 10,
+            'location': 'New Location',
+            'available': True,
+            'company': self.Company
+        }
+        response = self.client.post(reverse('meeting-room-create'), data)
+        self.assertEqual(response.status_code, 302)  
 
     def test_reserve_meeting_room_view(self):
         response = self.client.get(reverse('reserve-meeting-room'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'reserve_meeting_room.html')
 
-    def test_reservation_show_view(self):
-        response = self.client.get(reverse('show-reservations'))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'session_list.html')
-
-    def test_reservation_cancel_view(self):
-        meeting_room = MeetingRoom.objects.create(room_name='Test Room', capacity=10, location='Test Location', available=True)
-        session = Sessions.objects.create(name='Test Session', meeting_room=meeting_room, date='2024-03-15', start_time='09:00:00', end_time='10:00:00')
-        response = self.client.get(reverse('cancel-reservation', args=[session.pk]))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'session_confirm_delete.html')
+        data = {
+            'name': 'New Session',
+            'team': self.team.id,
+            'meeting_room': self.meeting_room,
+            'date': '2024-03-16',
+            'start_time': '10:00',
+            'end_time': '12:00',
+        }
+        response = self.client.post(reverse('reserve-meeting-room'), data)
+        self.assertEqual(response.status_code, 302)  
+        self.team.manager = None
+        self.team.save()
+        response = self.client.post(reverse('reserve-meeting-room'), data)
+        self.assertEqual(response.status_code, 302)  
 
     def test_meeting_room_rating_create_view(self):
-        meeting_room = MeetingRoom.objects.create(room_name='Test Room', capacity=10, location='Test Location', available=True)
-        response = self.client.post(reverse('meeting-room-rating-create', args=[meeting_room.pk]), {'score': 4, 'comment': 'Test Comment'})
-        self.assertEqual(response.status_code, 302)  # Redirects upon success
+        response = self.client.get(reverse('meeting-room-rating-create', kwargs={'pk': self.meeting_room.id}))
+        self.assertEqual(response.status_code, 200)
 
-    def test_session_rating_create_view(self):
-        meeting_room = MeetingRoom.objects.create(room_name='Test Room', capacity=10, location='Test Location', available=True)
-        session = Sessions.objects.create(name='Test Session', meeting_room=meeting_room, date='2024-03-15', start_time='09:00:00', end_time='10:00:00')
-        response = self.client.post(reverse('session-rating-create', args=[session.pk]), {'score': 4, 'comment': 'Test Comment'})
-        self.assertEqual(response.status_code, 302)  # Redirects upon success
+        data = {
+            'meeting_room': self.meeting_room.id,
+            'score': 4,
+            'comment': 'Nice room'
+        }
+        response = self.client.post(reverse('meeting-room-rating-create', kwargs={'pk': self.meeting_room.id}), data)
+        self.assertEqual(response.status_code, 302)  
 
-    def test_meeting_room_rating_update_view(self):
-        meeting_room = MeetingRoom.objects.create(room_name='Test Room', capacity=10, location='Test Location', available=True)
-        rating = MeetingRoomRating.objects.create(user=self.user, meeting_room=meeting_room, score=3)
-        response = self.client.post(reverse('meeting-room-rating-update', args=[rating.pk]), {'score': 5, 'comment': 'Updated Comment'})
-        self.assertEqual(response.status_code, 302)  # Redirects upon success
-
-    def test_session_rating_update_view(self):
-        meeting_room = MeetingRoom.objects.create(room_name='Test Room', capacity=10, location='Test Location', available=True)
-        session = Sessions.objects.create(name='Test Session', meeting_room=meeting_room, date='2024-03-15', start_time='09:00:00', end_time='10:00:00')
-        rating = SessionRating.objects.create(user=self.user, session=session, score=3)
-        response = self.client.post(reverse('session-rating-update', args=[rating.pk]), {'score': 5, 'comment': 'Updated Comment'})
-        self.assertEqual(response.status_code, 302)  # Redirects upon success

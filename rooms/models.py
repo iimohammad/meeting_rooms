@@ -49,10 +49,6 @@ class MeetingRoom(models.Model):
     def __str__(self):
         return self.room_name
 
-    def __str__(self):
-        return self.room_name
-
-
 class Sessions(models.Model):
     name = models.CharField(max_length=30, default="session")
     team = models.ForeignKey('company.Team', on_delete=models.CASCADE)
