@@ -1,9 +1,48 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Company List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        li p {
+            margin: 0;
+        }
+        li a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        li a:hover {
+            text-decoration: underline;
+        }
+        .no-companies {
+            font-style: italic;
+            color: #888;
+        }
+    </style>
 </head>
 <body>
     <h1>Company List</h1>
@@ -14,13 +53,13 @@
                 <p>Company's Name: {{company.name}}</p>
                 <p>Company's Phone: {{company.phone}}</p>
                 <p>Company's Address: {{company.address}}</p>
-                <p>(
-                    <a href="{% url 'update-company' company.pk %}">Update company</a><a> - </a>
+                <p>
+                    <a href="{% url 'update-company' company.pk %}">Update company</a> - 
                     <a href="{% url 'delete-company' company.pk %}">Delete company</a>
-                )</p>
+                </p>
             </li>
         {% empty %}
-            <li>No companies found.</li>
+            <li class="no-companies">No companies found.</li>
         {% endfor %}
     </ul>
 </body>

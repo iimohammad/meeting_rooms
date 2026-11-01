@@ -10,9 +10,9 @@ urlpatterns = [
     path('meeting-room/detail/<int:pk>/', MeetingRoomDetailView.as_view(), name='meeting-room-detail'),
 
     # Reservation CRUD
-    path('reserve', ReserveMeetingRoomView.as_view(), name='reserve'),
+    # path('reserve', ReserveMeetingRoomView.as_view(), name='reserve'),
     path('show_reservations', Reservation_Show.as_view(), name='show_reservations'),
-    path('cancel_reservation/<int:pk>/cancel/', Reservation_Cancel.as_view(), name='cancel_reservation'),
+    # path('cancel_reservation/<int:pk>/cancel/', Reservation_Cancel.as_view(), name='cancel_reservation'),
 
     # Handling Comments and Scores about Rooms
     path('meeting_room/<int:pk>/rate/', MeetingRoomRatingCreate.as_view(), name='rate_meeting_room'),

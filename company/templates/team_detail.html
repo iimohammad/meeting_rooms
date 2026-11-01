@@ -81,6 +81,7 @@
             {% endfor %}
         </ul>
     </ul>
+    <a href="{% url 'team-sessions' pk=team.pk %}" class="edit-btn">Team Sessions</a>
    <a href="{% url 'update-team' pk=team.pk %}" class="edit-btn">Edit Team</a>
 </body>
 </html>
